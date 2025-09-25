@@ -1,0 +1,567 @@
+openapi: 3.0.0
+info:
+  version: "1.0.0"
+  title: SmartGPT - AI Chatbot
+  description: |
+    SmartGPT is a RESTful API designed to power AI-driven chatbot functionality.
+  contact:
+    name: Mohosin Hasan Akash
+    url: https://personal-portfolio-website-brown-nine.vercel.app/
+    email: mohosin.hasan.akash@gmail.com
+servers:
+  - description: Dev
+    url: http://localhost:3000/api/v1
+tags:
+  - name: Auth
+    description: Authentication Endpoints (public)
+  - name: Chat
+    description: Chat Endpoints (private)
+  - name: Message
+    description: Message Endpoints (private)
+  - name: Image
+    description: Image Generation Endpoints (private)
+paths:
+  "/auth/register":
+    post:
+      description: Creae a New User
+      tags: [Auth]
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Jhon Doe
+                email:
+                  type: string
+                  format: email
+                  example: jhondoe@test.com
+                password:
+                  type: string
+                  format: password
+                  example: Password2025
+              required: [name, email, password]
+      responses:
+        "201":
+          description: User Created Successfully
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 201
+                  message:
+                    type: string
+                    example: User Created Successfully
+                  data:
+                    type: object
+                    properties:
+                      access_token:
+                        type: string
+                        example: "21545saf4D5EV1fw54aDA21f5a4we4DS545a45sf43a3a3faaa21CVDW545saf451fw54SSa21f5a4we4545aE45sf43a3a3fFCVADFaaa"
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        example: "/auth/register"
+                      login:
+                        type: string
+                        example: "/auth/login"
+        "400":
+          $ref: "#/components/responses/400"
+        "500":
+          $ref: "#/components/responses/500"
+  "/auth/login":
+    post:
+      description: Login to Your Account
+      tags: [Auth]
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: jhondoe@test.com
+                password:
+                  type: string
+                  format: password
+                  example: Password2025
+              required: [email, password]
+      responses:
+        "200":
+          description: Login Successfull
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 200
+                  message:
+                    type: string
+                    example: Login Successfull
+                  data:
+                    type: object
+                    properties:
+                      access_token:
+                        type: string
+                        example: "21545saf4D5EV1fw54aDA21f5a4we4DS545a45sf43a3a3faaa21CVDW545saf451fw54SSa21f5a4we4545aE45sf43a3a3fFCVADFaaa"
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        example: "/auth/login"
+        "400":
+          $ref: "#/components/responses/400"
+        "500":
+          $ref: "#/components/responses/500"
+  "/chats":
+    get:
+      security:
+        - bearerAuth: []
+      description: Retrive All Published Chats
+      tags: [Chat]
+      parameters:
+        - $ref: "#/components/parameters/sortTypeParam"
+        - $ref: "#/components/parameters/sortByParam"
+        - $ref: "#/components/parameters/searchParam"
+      responses:
+        "200":
+          description: Return a list of chats
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      allOf:
+                        - $ref: "#/components/schemas/Chat"
+                        - $ref: "#/components/schemas/Timestamp"
+        "400":
+          $ref: "#/components/responses/400"
+        "500":
+          $ref: "#/components/responses/500"
+    post:
+      operationId: createChat
+      security:
+        - bearerAuth: []
+      description: Create a New Chat
+      tags: [Chat]
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              type: object
+              example: {}
+      responses:
+        "201":
+          description: Successfully Created a New Chat
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 201
+                  message:
+                    type: string
+                    example: Successfully Created a New Chat
+                  data:
+                    allOf:
+                      - $ref: "#/components/schemas/Chat"
+                      - $ref: "#/components/schemas/Timestamp"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "500":
+          $ref: "#/components/responses/500"
+  "/chats/{id}":
+    get:
+      security:
+        - bearerAuth: []
+      description: Fetch a Single Chat by Id
+      tags: [Chat]
+      parameters:
+        - $ref: "#/components/parameters/idPathParam"
+      responses:
+        "200":
+          description: Retrive a Single Chat
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  data:
+                    allOf:
+                      - type: object
+                        properties:
+                          id:
+                            type: string
+                            example: "68cadea3a1ae1a981471f34f"
+                          userId:
+                            type: string
+                            example: "68cadea3a1ae1a981471f34f"
+                          name:
+                            type: string
+                            example: Name of the chat
+                          userName:
+                            type: string
+                            example: John Doe
+                          messages:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                id:
+                                  type: string
+                                  example: "68cadea3a1ae1a981471f34f"
+                                isImage:
+                                  type: boolean
+                                  example: false
+                                isPublished:
+                                  type: boolean
+                                  example: false
+                                role:
+                                  type: string
+                                  example: user
+                                content:
+                                  type: string
+                                  example: A boy looking at the sky setting on the field.
+                                timestamp:
+                                  type: number
+                                  example: 1758166559053
+                        required: [id, userId, userName, name, messages]
+                      - $ref: "#/components/schemas/Timestamp"
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        example: "/chats/1"
+                      author:
+                        type: string
+                        example: "/chats/1/author"
+        "400":
+          $ref: "#/components/responses/400"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+    delete:
+      security:
+        - bearerAuth: []
+      description: Delete a Single Chat by Id
+      tags: [Chat]
+      parameters:
+        - $ref: "#/components/parameters/idPathParam"
+      responses:
+        "204":
+          description: Chat Deleted Successfully
+        "401":
+          $ref: "#/components/responses/401"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+  "/messages":
+    post:
+      security:
+        - bearerAuth: []
+      description: Create a New Message
+      tags: [Message]
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              type: object
+              properties:
+                chatId:
+                  type: string
+                  example: "68cadea3a1ae1a981471f34f"
+                prompt:
+                  type: string
+                  example: "Hello, how are you?"
+              required: [chatId, prompt]
+      responses:
+        "201":
+          description: Successfully Created a New Message
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 201
+                  message:
+                    type: string
+                    example: Successfully Created a New Message
+                  data:
+                    type: object
+                    properties:
+                      content:
+                        type: string
+                        example: "I am doing well, thank you for asking! How are you today?"
+                      role:
+                        type: string
+                        example: "assistant"
+                      timestamp:
+                        type: number
+                        example: 1758166559053
+                      isImage:
+                        type: boolean
+                        example: false
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "500":
+          $ref: "#/components/responses/500"
+  "/images":
+    post:
+      security:
+        - bearerAuth: []
+      description: Create a New Image
+      tags: [Image]
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              type: object
+              properties:
+                chatId:
+                  type: string
+                  example: "68cadea3a1ae1a981471f34f"
+                prompt:
+                  type: string
+                  example: A boy looking at the sky setting on the field.
+                isPublished:
+                  type: boolean
+                  example: false
+              required: [chatId, prompt, isPublished]
+      responses:
+        "201":
+          description: Successfully Created a New Image
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 201
+                  message:
+                    type: string
+                    example: Successfully Created a New Image
+                  data:
+                    type: object
+                    properties:
+                      role:
+                        type: string
+                        example: "assistant"
+                      content:
+                        type: string
+                        format: url
+                        example: "https://s3.aws.com/ka.jpg"
+                      timestamp:
+                        type: number
+                        example: 1758166559053
+                      isImage:
+                        type: boolean
+                        example: true
+                      isPublished:
+                        type: boolean
+                        example: false
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "500":
+          $ref: "#/components/responses/500"
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Chat:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "68cadea3a1ae1a981471f34f"
+        userId:
+          type: string
+          example: "68cadea3a1ae1a981471f34f"
+        name:
+          type: string
+          example: Name of the chat
+        userName:
+          type: string
+          example: John Doe
+        link:
+          type: string
+          format: url
+          example: "/chats/1"
+      required: [id, userId, userName, name, link]
+    Image:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "68cadea3a1ae1a981471f34f"
+        userName:
+          type: string
+          example: John Doe
+        cover:
+          type: string
+          format: url
+          example: "https://s3.aws.com/ka.jpg"
+        link:
+          type: string
+          format: url
+          example: "/images/1"
+      required: [id, userName, cover, link]
+    Timestamp:
+      type: object
+      properties:
+        createdAt:
+          type: string
+          format: datetime
+        updatedAt:
+          type: string
+          format: datetime
+      required: [createdAt, updatedAt]
+  responses:
+    "500":
+      description: Internal Server Error
+      content:
+        "application/json":
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+                example: 500
+              error:
+                type: string
+                example: Internal Server Error
+              message:
+                type: string
+                example: We are sorry for the inconvenience. Please try again later.
+    "400":
+      description: Bad Request
+      content:
+        "application/json":
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+                example: 400
+              error:
+                type: string
+                example: Bad Request
+              data:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    field:
+                      type: string
+                      example: email
+                    message:
+                      type: string
+                      example: Invalid Email
+                    in:
+                      type: string
+                      enum: [body, query]
+                      example: body
+    "401":
+      description: Unauthorized
+      content:
+        "application/json":
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+                example: 401
+              error:
+                type: string
+                example: Unauthorized
+              message:
+                type: string
+                example: You don't have the right permissions.
+    "404":
+      description: Resource Not Found
+      content:
+        "application/json":
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+                example: 404
+              error:
+                type: string
+                example: Not Found
+              message:
+                type: string
+                example: Requested resource not found.
+  parameters:
+    sortTypeParam:
+      in: query
+      name: sort_type
+      description: type of sort (asc or desc)
+      schema:
+        type: string
+        enum: [asc, desc]
+        example: desc
+    sortByParam:
+      in: query
+      name: sort_by
+      description: sort key
+      schema:
+        type: string
+        example: updatedAt
+    searchParam:
+      in: query
+      name: search
+      description: search term
+      schema:
+        type: string
+        example: name
+    idPathParam:
+      in: path
+      name: id
+      required: true
+      description: Chat ID
+      schema:
+        type: string
+        example: "68ba580912d4f708a9e21196"
