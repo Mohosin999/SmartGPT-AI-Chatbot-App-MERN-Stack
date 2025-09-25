@@ -1,54 +1,25 @@
-// const express = require("express");
-// const applyMiddleware = require("./middleware");
-// const routes = require("./routes");
-
-// const app = express();
-
-// applyMiddleware(app);
-// app.use(routes);
-
-// app.get("/health", (req, res) => {
-//   res.status(200).json({
-//     health: "OK",
-//     user: req.user,
-//   });
-// });
-
-// app.use((err, _req, res, _next) => {
-//   // TODO: format error
-//   console.log(err);
-//   res.status(err.status || 500).json({
-//     message: err.message,
-//     errors: err.errors,
-//   });
-// });
-
-// module.exports = app;
-
 const express = require("express");
 const applyMiddleware = require("./middleware");
 const routes = require("./routes");
 
 const app = express();
 
-// Apply middleware and routes
 applyMiddleware(app);
 app.use(routes);
 
-// Health check endpoint
 app.get("/health", (req, res) => {
   res.status(200).json({
     health: "OK",
-    user: req.user || null,
+    user: req.user,
   });
 });
 
-// Error handler
 app.use((err, _req, res, _next) => {
-  console.error(err);
+  // TODO: format error
+  console.log(err);
   res.status(err.status || 500).json({
     message: err.message,
-    errors: err.errors || null,
+    errors: err.errors,
   });
 });
 
