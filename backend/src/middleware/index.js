@@ -30,7 +30,7 @@ const YAML = require("yamljs");
 const OpenApiValidator = require("express-openapi-validator");
 const path = require("path");
 
-const swaggerPath = path.join(process.cwd(), "swagger.yaml");
+const swaggerPath = path.join(process.cwd(), "../../swagger.yaml");
 const swaggerDoc = YAML.load(swaggerPath);
 
 const applyMiddleware = (app) => {
