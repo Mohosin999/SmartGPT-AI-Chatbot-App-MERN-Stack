@@ -30,8 +30,7 @@ const YAML = require("yamljs");
 const OpenApiValidator = require("express-openapi-validator");
 const path = require("path");
 
-// 🔧 Use absolute path instead of "./swagger.yaml"
-const swaggerPath = path.join(__dirname, "../../swagger.yaml");
+const swaggerPath = path.join(process.cwd(), "swagger.yaml");
 const swaggerDoc = YAML.load(swaggerPath);
 
 const applyMiddleware = (app) => {
@@ -39,15 +38,20 @@ const applyMiddleware = (app) => {
   app.use(morgan("dev"));
   app.use(express.json());
 
-  // Swagger docs
-  app.use("/docs", swaggerUI.serve, swaggerUI.setup(swaggerDoc));
+  // ✅ Only enable Swagger in dev
+  if (process.env.NODE_ENV !== "production") {
+    app.use("/docs", swaggerUI.serve, swaggerUI.setup(swaggerDoc));
+  }
 
-  // OpenAPI validator
+  // OpenAPI Validator (can run in both dev & prod)
   app.use(
     OpenApiValidator.middleware({
       apiSpec: swaggerPath,
     })
   );
+
+  // Example route
+  app.get("/api/v1/ping", (req, res) => res.json({ message: "pong" }));
 };
 
 module.exports = applyMiddleware;
