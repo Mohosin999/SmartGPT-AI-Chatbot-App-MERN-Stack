@@ -29,11 +29,11 @@ const Message = ({ msg }) => {
             className="rounded-lg max-w-full object-contain"
           />
         ) : msg.role === "assistant" ? (
-          <div className="text-sm lg:text-base reset-tw">
+          <div className="text-base reset-tw">
             <Markdown>{msg.content}</Markdown>
           </div>
         ) : (
-          <div className="text-sm lg:text-base p-3">
+          <div className="text-base p-3">
             <Markdown>{msg.content}</Markdown>
           </div>
         )}

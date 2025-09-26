@@ -115,7 +115,7 @@ const ContentArea = () => {
   };
 
   return (
-    <div className="h-screen flex flex-col relative">
+    <div className="h-[100vh] flex flex-col relative">
       {/* Chat messages or placeholder */}
       <div
         className="flex-1 flex flex-col overflow-y-auto mt-16 lg:mt-4"
