@@ -115,17 +115,17 @@ const ContentArea = () => {
   };
 
   return (
-    <div className="h-[100vh] flex flex-col relative">
+    <div className="h-screen flex flex-col relative">
       {/* Chat messages or placeholder */}
       <div
-        className="flex-1 flex flex-col overflow-y-auto mt-16 lg:mt-4"
+        className="flex-1 flex flex-col overflow-y-auto mt-16 lg:mt-4 mb-4"
         ref={chatContainerRef}
       >
         <div className="px-4 xl:pr-1 relative flex-1">
           {!token ? (
             <div className="absolute inset-0 flex flex-col items-center justify-center">
               <img src="./vite.svg" alt="Logo" className="w-30 h-30 mb-4" />
-              <h2 className="text-5xl font-semibold text-gray-800 mb-10">
+              <h2 className="text-4xl md:text-5xl px-4 md:px-0 font-semibold text-gray-800 mb-10">
                 Ask me anything
               </h2>
             </div>
@@ -139,7 +139,7 @@ const ContentArea = () => {
           ) : (
             <div className="absolute inset-0 flex flex-col items-center justify-center">
               <img src="./vite.svg" alt="Logo" className="w-30 h-30 mb-4" />
-              <h2 className="text-5xl font-semibold text-gray-800 mb-10">
+              <h2 className="text-4xl md:text-5xl px-4 md:px-0 font-semibold text-gray-800 mb-10">
                 Ask me anything
               </h2>
             </div>
