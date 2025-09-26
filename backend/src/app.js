@@ -7,6 +7,12 @@ const app = express();
 applyMiddleware(app);
 app.use(routes);
 
+app.get("/", (_req, res) => {
+  res.status(200).json({
+    message: "Welcome to SmartGPT API",
+  });
+});
+
 app.get("/health", (req, res) => {
   res.status(200).json({
     health: "OK",
