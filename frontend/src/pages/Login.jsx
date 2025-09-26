@@ -23,7 +23,7 @@ import {
 } from "@/components/ui/form";
 
 import { useDispatch, useSelector } from "react-redux";
-import { loginUser } from "@/features/auth/authSlice";
+import { clearError, loginUser } from "@/features/auth/authSlice";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
@@ -55,7 +55,8 @@ const Login = () => {
       form.reset();
       navigate("/loading");
     } else if (error) {
-      toast.error("Invalid Credentials");
+      toast.error("Invalid credentials");
+      dispatch(clearError());
     }
   }, [user, error, form, navigate]);
 
