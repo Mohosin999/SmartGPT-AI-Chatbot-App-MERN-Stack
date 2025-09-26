@@ -1,7 +1,13 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import { LoaderCircle } from "lucide-react";
+
+import { registerUser, clearError } from "@/features/auth/authSlice";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -22,12 +28,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-import { useDispatch, useSelector } from "react-redux";
-import { registerUser } from "@/features/auth/authSlice";
-import { useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
-
-const formSchema = z.object({
+// ✅ Validation schema
+const registerSchema = z.object({
   name: z.string().min(3, "Name must be at least 3 characters"),
   email: z.string().email("Invalid email address"),
   password: z.string().min(6, "Password must be at least 6 characters"),
@@ -35,65 +37,77 @@ const formSchema = z.object({
 
 const Register = () => {
   const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
+  const { user, error, loading } = useSelector((state) => state.auth);
 
-  const nameRef = useRef(null); // Ref for name input
+  const nameInputRef = useRef(null);
 
+  // ✅ React Hook Form setup
   const form = useForm({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(registerSchema),
     defaultValues: { name: "", email: "", password: "" },
   });
 
-  // Focus name input on page load
+  // ✅ Autofocus on first render
   useEffect(() => {
-    nameRef.current?.focus();
+    nameInputRef.current?.focus();
   }, []);
 
+  // ✅ Handle auth state changes
   useEffect(() => {
     if (user) {
+      toast.success("Registration successful");
       form.reset();
+      navigate("/loading");
+    } else if (error) {
+      toast.error(error || "Registration failed");
+      dispatch(clearError());
     }
-  }, [user, form]);
+  }, [user, error, form, navigate, dispatch]);
 
-  const onSubmit = (values) => {
-    dispatch(registerUser(values));
-    toast.success("Registration successful");
-    navigate("/loading");
-  };
+  // ✅ Handlers
+  const handleRegister = useCallback(
+    (values) => {
+      dispatch(registerUser(values));
+    },
+    [dispatch]
+  );
 
-  const handleLogin = () => {
+  const handleNavigateLogin = useCallback(() => {
     navigate("/login");
-  };
+  }, [navigate]);
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-cyan-950">
-      <Card className="w-full max-w-sm">
+      <Card className="w-full max-w-sm shadow-lg">
         <CardHeader>
           <CardTitle>Create a new account</CardTitle>
           <CardDescription>
-            Enter your details below to register a new account
+            Enter your details below to get started
           </CardDescription>
         </CardHeader>
 
         <CardContent>
           <Form {...form}>
             <form
-              onSubmit={form.handleSubmit(onSubmit)}
+              onSubmit={form.handleSubmit(handleRegister)}
               className="flex flex-col gap-6"
+              noValidate
             >
+              {/* Name Field */}
               <FormField
                 control={form.control}
                 name="name"
                 render={({ field }) => (
-                  <FormItem className="grid gap-2">
+                  <FormItem>
                     <FormLabel>Name</FormLabel>
                     <FormControl>
                       <Input
                         {...field}
                         type="text"
-                        placeholder="Jhon Doe"
-                        ref={nameRef} // <-- attach ref here
+                        placeholder="John Doe"
+                        ref={nameInputRef}
+                        autoComplete="name"
                       />
                     </FormControl>
                     <FormMessage />
@@ -101,17 +115,19 @@ const Register = () => {
                 )}
               />
 
+              {/* Email Field */}
               <FormField
                 control={form.control}
                 name="email"
                 render={({ field }) => (
-                  <FormItem className="grid gap-2">
+                  <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
                       <Input
                         {...field}
                         type="email"
-                        placeholder="jhondoe@example.com"
+                        placeholder="johndoe@example.com"
+                        autoComplete="email"
                       />
                     </FormControl>
                     <FormMessage />
@@ -119,30 +135,44 @@ const Register = () => {
                 )}
               />
 
+              {/* Password Field */}
               <FormField
                 control={form.control}
                 name="password"
                 render={({ field }) => (
-                  <FormItem className="grid gap-2">
+                  <FormItem>
                     <FormLabel>Password</FormLabel>
                     <FormControl>
-                      <Input {...field} type="password" />
+                      <Input
+                        {...field}
+                        type="password"
+                        autoComplete="new-password"
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
 
+              {/* Actions */}
               <CardFooter className="flex flex-col gap-2">
-                <Button type="submit" className="w-full cursor-pointer">
-                  Register
+                <Button
+                  type="submit"
+                  className="w-full cursor-pointer"
+                  disabled={loading}
+                >
+                  {loading ? (
+                    <LoaderCircle className="w-5 h-5 animate-spin" />
+                  ) : (
+                    "Register"
+                  )}
                 </Button>
-                <p className="text-center">
+                <p className="text-center text-sm text-muted-foreground">
                   Already have an account?{" "}
                   <button
                     type="button"
-                    className="text-blue-500 hover:underline cursor-pointer select-none active:scale-102"
-                    onClick={handleLogin}
+                    className="text-blue-500 hover:underline active:scale-95 transition cursor-pointer"
+                    onClick={handleNavigateLogin}
                   >
                     Login
                   </button>

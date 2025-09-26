@@ -1,7 +1,12 @@
-import React, { useRef, useState } from "react";
+import React, {
+  useState,
+  useImperativeHandle,
+  forwardRef,
+  useRef,
+} from "react";
 import { FaCircleArrowRight } from "react-icons/fa6";
 
-const ChatInput = ({ onSend }) => {
+const ChatInput = forwardRef(({ onSend }, ref) => {
   const [value, setValue] = useState("");
   const [isImage, setIsImage] = useState(false);
   const textareaRef = useRef(null);
@@ -35,6 +40,11 @@ const ChatInput = ({ onSend }) => {
       sendMessage();
     }
   };
+
+  // ✅ Expose focus() to parent (ContentArea)
+  useImperativeHandle(ref, () => ({
+    focus: () => textareaRef.current?.focus(),
+  }));
 
   return (
     <div className="w-full px-4 md:px-0 flex flex-col items-center">
@@ -111,6 +121,8 @@ const ChatInput = ({ onSend }) => {
       `}</style>
     </div>
   );
-};
+});
+
+ChatInput.displayName = "ChatInput";
 
 export default ChatInput;

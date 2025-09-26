@@ -1,7 +1,13 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import { LoaderCircle } from "lucide-react";
+
+import { clearError, loginUser } from "@/features/auth/authSlice";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -22,33 +28,31 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-import { useDispatch, useSelector } from "react-redux";
-import { clearError, loginUser } from "@/features/auth/authSlice";
-import { useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
-
-const formSchema = z.object({
+// ✅ Schema definition
+const loginSchema = z.object({
   email: z.string().email("Invalid email address"),
   password: z.string().min(6, "Password must be at least 6 characters"),
 });
 
 const Login = () => {
   const dispatch = useDispatch();
-  const { user, error } = useSelector((state) => state.auth);
   const navigate = useNavigate();
+  const { user, error, loading } = useSelector((state) => state.auth);
 
-  const emailRef = useRef(null); // Ref for email input
+  const emailInputRef = useRef(null);
 
+  // ✅ React Hook Form setup
   const form = useForm({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(loginSchema),
     defaultValues: { email: "", password: "" },
   });
 
-  // Focus email input on page load
+  // ✅ Autofocus on first render
   useEffect(() => {
-    emailRef.current?.focus();
+    emailInputRef.current?.focus();
   }, []);
 
+  // ✅ Handle auth state changes
   useEffect(() => {
     if (user) {
       toast.success("Login successful");
@@ -58,44 +62,51 @@ const Login = () => {
       toast.error("Invalid credentials");
       dispatch(clearError());
     }
-  }, [user, error, form, navigate]);
+  }, [user, error, form, navigate, dispatch]);
 
-  const onSubmit = (values) => {
-    dispatch(loginUser(values));
-  };
+  // ✅ Handlers
+  const handleLogin = useCallback(
+    (values) => {
+      dispatch(loginUser(values));
+    },
+    [dispatch]
+  );
 
-  const handleRegister = () => {
+  const handleNavigateRegister = useCallback(() => {
     navigate("/register");
-  };
+  }, [navigate]);
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-cyan-950">
-      <Card className="w-full max-w-sm">
+      <Card className="w-full max-w-sm shadow-lg">
         <CardHeader>
           <CardTitle>Login to your account</CardTitle>
           <CardDescription>
-            Enter your email and password to login
+            Enter your email and password to continue
           </CardDescription>
         </CardHeader>
 
         <CardContent>
           <Form {...form}>
             <form
-              onSubmit={form.handleSubmit(onSubmit)}
+              onSubmit={form.handleSubmit(handleLogin)}
               className="flex flex-col gap-6"
+              noValidate
             >
+              {/* Email Field */}
               <FormField
                 control={form.control}
                 name="email"
                 render={({ field }) => (
-                  <FormItem className="grid gap-2">
+                  <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
                       <Input
                         {...field}
-                        ref={emailRef} // <-- attach ref here
+                        ref={emailInputRef}
                         type="email"
-                        placeholder="jhondoe@example.com"
+                        autoComplete="email"
+                        placeholder="johndoe@example.com"
                       />
                     </FormControl>
                     <FormMessage />
@@ -103,30 +114,44 @@ const Login = () => {
                 )}
               />
 
+              {/* Password Field */}
               <FormField
                 control={form.control}
                 name="password"
                 render={({ field }) => (
-                  <FormItem className="grid gap-2">
+                  <FormItem>
                     <FormLabel>Password</FormLabel>
                     <FormControl>
-                      <Input {...field} type="password" />
+                      <Input
+                        {...field}
+                        type="password"
+                        autoComplete="current-password"
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
 
+              {/* Actions */}
               <CardFooter className="flex flex-col gap-2">
-                <Button type="submit" className="w-full cursor-pointer">
-                  Login
+                <Button
+                  type="submit"
+                  className="w-full cursor-pointer"
+                  disabled={loading}
+                >
+                  {loading ? (
+                    <LoaderCircle className="w-5 h-5 animate-spin" />
+                  ) : (
+                    "Login"
+                  )}
                 </Button>
-                <p className="text-center">
-                  Don't have an account?{" "}
+                <p className="text-center text-sm text-muted-foreground">
+                  Don’t have an account?{" "}
                   <button
                     type="button"
-                    className="text-blue-500 hover:underline cursor-pointer select-none active:scale-102"
-                    onClick={handleRegister}
+                    className="text-blue-500 hover:underline active:scale-95 transition cursor-pointer"
+                    onClick={handleNavigateRegister}
                   >
                     Register
                   </button>
