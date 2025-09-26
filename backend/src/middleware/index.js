@@ -30,22 +30,21 @@ const YAML = require("yamljs");
 const OpenApiValidator = require("express-openapi-validator");
 const path = require("path");
 
-// 🔧 Use absolute path instead of "./swagger.yaml"
-const swaggerPath = path.join(__dirname, "../../swagger.yaml");
-const swaggerDoc = YAML.load(swaggerPath);
+// Use path relative to current file in Vercel
+const swaggerDoc = YAML.load(path.join(process.cwd(), "swagger.yaml"));
 
 const applyMiddleware = (app) => {
   app.use(cors());
   app.use(morgan("dev"));
   app.use(express.json());
 
-  // Swagger docs
+  // Serve Swagger UI
   app.use("/docs", swaggerUI.serve, swaggerUI.setup(swaggerDoc));
 
   // OpenAPI validator
   app.use(
     OpenApiValidator.middleware({
-      apiSpec: swaggerPath,
+      apiSpec: path.join(process.cwd(), "swagger.yaml"),
     })
   );
 };
