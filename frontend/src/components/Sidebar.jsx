@@ -243,6 +243,8 @@ const Sidebar = ({ handleSidebarClose }) => {
   // Handlers
   const handleCreateChat = async () => {
     if (!token) return navigate("/login");
+    // Close sidebar
+    if (handleSidebarClose) handleSidebarClose();
 
     const res = await dispatch(createChat({}));
     if (res.meta.requestStatus === "fulfilled") {
@@ -267,9 +269,6 @@ const Sidebar = ({ handleSidebarClose }) => {
         console.error("Failed to persist chat name:", err);
       }
     }
-
-    // Close sidebar
-    if (handleSidebarClose) handleSidebarClose();
   };
 
   const handleGetChatById = (chatId) => {
