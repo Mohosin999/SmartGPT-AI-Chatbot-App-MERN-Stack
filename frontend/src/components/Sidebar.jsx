@@ -15,7 +15,7 @@
 // import ChatList from "./sidebar/ChatList";
 // import SidebarHeader from "./sidebar/SidebarHeader";
 
-// const Sidebar = () => {
+// const Sidebar = ({ handleSidebarClose }) => {
 //   const navigate = useNavigate();
 //   const dispatch = useDispatch();
 //   const { allChats, currentChat } = useSelector((state) => state.chat);
@@ -77,6 +77,8 @@
 //   // Handlers
 //   const handleCreateChat = async () => {
 //     if (!token) return navigate("/login");
+//     // Close sidebar
+//     if (handleSidebarClose) handleSidebarClose();
 
 //     const res = await dispatch(createChat({}));
 //     if (res.meta.requestStatus === "fulfilled") {
@@ -106,6 +108,8 @@
 //   const handleGetChatById = (chatId) => {
 //     if (!token) return navigate("/login");
 //     dispatch(getChatById(chatId));
+//     // Close sidebar
+//     if (handleSidebarClose) handleSidebarClose();
 //   };
 
 //   const handleConfirmDeleteChat = async () => {
@@ -332,4 +336,4 @@ const Sidebar = ({ handleSidebarClose }) => {
   );
 };
 
-export default Sidebar;
+export default React.memo(Sidebar);
