@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from "react";
 import ChatInput from "./ui/ChatInput";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "./Message";
-import { ImSpinner9 } from "react-icons/im";
+
 import {
   createChat,
   createMessage,
@@ -12,6 +12,7 @@ import {
   createImage,
 } from "@/features/chat/chatSlice";
 import toast from "react-hot-toast";
+import Loader from "./Loader";
 
 const ContentArea = () => {
   const { currentChat, isGenerating } = useSelector((state) => state.chat);
@@ -153,14 +154,7 @@ const ContentArea = () => {
       </div>
 
       {/* Full-screen loader overlay */}
-      {isGenerating && (
-        <div className="absolute inset-0 bg-black/30 flex items-center justify-center z-50">
-          <div className="flex flex-col items-center gap-3">
-            <ImSpinner9 className="animate-spin text-white text-4xl" />
-            <span className="text-white text-lg">Generating response...</span>
-          </div>
-        </div>
-      )}
+      {isGenerating && <Loader title="Generating response..." />}
     </div>
   );
 };

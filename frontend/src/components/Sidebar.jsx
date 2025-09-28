@@ -11,8 +11,8 @@ import {
   updateChatName,
   addChatToAllChats,
 } from "@/features/chat/chatSlice";
-import SidebarFooter from "./sidebar/SidebarFooter";
 import ChatList from "./sidebar/ChatList";
+import SidebarFooter from "./sidebar/SidebarFooter";
 import SidebarHeader from "./sidebar/SidebarHeader";
 
 const Sidebar = ({ handleSidebarClose }) => {
