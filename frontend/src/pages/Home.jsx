@@ -2,13 +2,10 @@ import React, { useState } from "react";
 import ContentArea from "@/components/ContentArea";
 import { FiMenu, FiX } from "react-icons/fi";
 import { Button } from "@/components/ui/button";
-import { useSelector } from "react-redux";
-import Loader from "@/components/Loader";
 import Sidebar from "@/components/Sidebar";
 
 const Home = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const { isCreating } = useSelector((state) => state.chat);
 
   const handleSidebarClose = () => {
     setIsSidebarOpen(false);
@@ -16,13 +13,6 @@ const Home = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
-      {/* Loading Indicator for creating new chat */}
-      {isCreating && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center">
-          <Loader title={"Creating New Chat..."} />
-        </div>
-      )}
-
       {/* ------------------
         - Menu Button
         - Title

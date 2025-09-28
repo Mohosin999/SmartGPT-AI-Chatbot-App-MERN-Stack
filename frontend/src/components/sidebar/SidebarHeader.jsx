@@ -2,20 +2,10 @@ import React from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { FaPlus } from "react-icons/fa6";
-// import { useSelector } from "react-redux";
-// import Loader from "../Loader";
 
 const SidebarHeader = ({ searchTerm, setSearchTerm, onCreateChat }) => {
-  // const { isCreating } = useSelector((state) => state.chat);
-
   return (
     <div>
-      {/* {isCreating && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center">
-          <Loader title={"Creating New Chat..."} />
-        </div>
-      )} */}
-
       {/* Header Section */}
       <div className="flex items-center justify-center my-5 pb-3 xl:mb-6">
         <img src="./vite.svg" alt="App Logo" className="w-8 h-8" />
