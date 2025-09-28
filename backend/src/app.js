@@ -51,7 +51,7 @@ app.use(morgan("dev"));
 app.use(express.json());
 
 // ✅ Resolve swagger.yaml file inside project root
-const swaggerPath = path.resolve("swagger.yaml");
+const swaggerPath = path.join(__dirname, "swagger.yaml");
 const swaggerDoc = YAML.load(swaggerPath);
 
 // Swagger Docs (only in dev mode, optional)
