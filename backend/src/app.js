@@ -54,10 +54,7 @@ app.use(express.json());
 const swaggerPath = path.join(__dirname, "swagger.yaml");
 const swaggerDoc = YAML.load(swaggerPath);
 
-// Swagger Docs (only in dev mode, optional)
-if (process.env.NODE_ENV !== "production") {
-  app.use("/docs", swaggerUI.serve, swaggerUI.setup(swaggerDoc));
-}
+app.use("/docs", swaggerUI.serve, swaggerUI.setup(swaggerDoc));
 
 // OpenAPI Validator middleware
 app.use(
@@ -76,11 +73,6 @@ app.get("/health", (req, res) => {
     health: "OK",
     user: req.user,
   });
-});
-
-app.get("/api-spec", (_req, res) => {
-  res.setHeader("Content-Type", "application/json");
-  res.send(swaggerDoc);
 });
 
 // Global Error Handler
