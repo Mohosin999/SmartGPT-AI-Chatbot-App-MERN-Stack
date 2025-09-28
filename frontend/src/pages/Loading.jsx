@@ -9,13 +9,13 @@ const Loading = () => {
       navigate("/"); // Navigate to home page
     }, 1000);
 
-    return () => clearTimeout(timer); // Cleanup
+    return () => clearTimeout(timer);
   }, [navigate]);
 
   return (
     <div className="bg-sky-950">
       <div className="flex items-center justify-center h-screen">
-        <div className="w-16 h-16 border-4 border-yellow-400 border-dashed rounded-full animate-spin"></div>
+        <div className="w-16 h-16 border-4 border-white border-dashed rounded-full animate-spin"></div>
       </div>
     </div>
   );

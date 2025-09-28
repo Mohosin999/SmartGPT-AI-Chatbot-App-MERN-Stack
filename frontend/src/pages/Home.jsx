@@ -23,10 +23,12 @@ const Home = () => {
         </div>
       )}
 
-      {/* Fixed Header for small/medium screens */}
+      {/* ------------------
+        - Menu Button
+        - Title
+      ------------------ */}
       <header className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-white border-b shadow-sm">
         <div className="flex items-center justify-between px-4 py-3">
-          {/* Menu Button */}
           <Button
             size="icon"
             onClick={() => setIsSidebarOpen(true)}
@@ -35,22 +37,25 @@ const Home = () => {
             <FiMenu size={24} />
           </Button>
 
-          {/* Logo & Title */}
           <div className="flex items-center justify-center mx-auto">
-            {/* <img src="./vite.svg" alt="App Logo" className="w-8 h-8" /> */}
             <h2 className="text-2xl font-bold ml-2">SmartGPT</h2>
           </div>
         </div>
       </header>
 
-      {/* Main Layout */}
+      {/* -------------------------------
+        - Main layout
+        - Sidebar for large screens
+        - Side bar for small screens
+        - Content area
+      ------------------------------- */}
       <div className="flex flex-1">
-        {/* Sidebar for lg+ screens */}
+        {/* Sidebar - For large screen */}
         <aside className="hidden lg:block w-1/4 bg-indigo-950 h-screen">
           <Sidebar />
         </aside>
 
-        {/* Sidebar Drawer for mobile */}
+        {/* Sidebar - For small screen */}
         <div
           className={`lg:hidden fixed inset-0 z-50 flex transition-transform duration-300 ease-in-out ${
             isSidebarOpen ? "translate-x-0" : "-translate-x-full"
@@ -64,9 +69,7 @@ const Home = () => {
             onClick={() => setIsSidebarOpen(false)}
           ></div>
 
-          {/* Sliding Sidebar */}
           <div className="relative w-64 bg-indigo-950 text-white h-full shadow-lg flex flex-col">
-            {/* Close Button */}
             <button
               className="absolute top-3 right-3 text-white hover:text-red-500"
               onClick={() => setIsSidebarOpen(false)}
@@ -78,7 +81,6 @@ const Home = () => {
           </div>
         </div>
 
-        {/* Content Area */}
         <main className="flex-1 lg:w-3/4">
           <ContentArea />
         </main>

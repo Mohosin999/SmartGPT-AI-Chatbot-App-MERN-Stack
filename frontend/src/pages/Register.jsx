@@ -28,7 +28,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-// ✅ Validation schema
+// Validation schema
 const registerSchema = z.object({
   name: z.string().min(3, "Name must be at least 3 characters"),
   email: z.string().email("Invalid email address"),
@@ -42,18 +42,18 @@ const Register = () => {
 
   const nameInputRef = useRef(null);
 
-  // ✅ React Hook Form setup
+  // React Hook Form setup
   const form = useForm({
     resolver: zodResolver(registerSchema),
     defaultValues: { name: "", email: "", password: "" },
   });
 
-  // ✅ Autofocus on first render
+  // Autofocus on first render
   useEffect(() => {
     nameInputRef.current?.focus();
   }, []);
 
-  // ✅ Handle auth state changes
+  // Handle auth state changes
   useEffect(() => {
     if (user) {
       toast.success("Registration successful");

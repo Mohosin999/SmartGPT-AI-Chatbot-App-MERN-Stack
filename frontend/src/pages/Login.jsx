@@ -28,7 +28,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-// ✅ Schema definition
+// Schema definition
 const loginSchema = z.object({
   email: z.string().email("Invalid email address"),
   password: z.string().min(6, "Password must be at least 6 characters"),
@@ -41,18 +41,18 @@ const Login = () => {
 
   const emailInputRef = useRef(null);
 
-  // ✅ React Hook Form setup
+  // React Hook Form setup
   const form = useForm({
     resolver: zodResolver(loginSchema),
     defaultValues: { email: "", password: "" },
   });
 
-  // ✅ Autofocus on first render
+  // Autofocus on first render
   useEffect(() => {
     emailInputRef.current?.focus();
   }, []);
 
-  // ✅ Handle auth state changes
+  // Handle auth state changes
   useEffect(() => {
     if (user) {
       toast.success("Login successful");
