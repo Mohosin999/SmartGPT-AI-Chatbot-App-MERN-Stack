@@ -57,10 +57,20 @@ const ContentArea = () => {
     if (loadedCount === images.length) scrollToBottom();
   }, [currentChat?.data?.messages]);
 
-  // Focus chat input when token exists
+  // // Focus chat input when token exists
+  // useEffect(() => {
+  //   if (token) chatInputRef.current?.focus();
+  // }, [token, currentChat?.data?.messages]);
+
+  // Focus chat input when token exists, chat updates, or generation stops
   useEffect(() => {
-    if (token) chatInputRef.current?.focus();
-  }, [token, currentChat?.data?.messages]);
+    if (!token) return;
+
+    // Only focus if not generating
+    if (currentChat?.data?.messages.length === 0) {
+      chatInputRef.current?.focus();
+    }
+  }, [token, currentChat?.data?.messages, isGenerating]);
 
   const handleSend = async (text, isImage) => {
     if (!token) return;

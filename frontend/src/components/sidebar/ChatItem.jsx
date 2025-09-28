@@ -90,6 +90,7 @@ import {
   AlertDialogCancel,
 } from "@/components/ui/alert-dialog";
 import Loader from "../Loader";
+import toast from "react-hot-toast";
 
 const ChatItem = ({
   chat,
@@ -104,7 +105,8 @@ const ChatItem = ({
   const handleDelete = async (chatId) => {
     setLoading(true); // show loader
     try {
-      await onConfirmDelete(chatId); // call parent delete function
+      await onConfirmDelete(chatId);
+      toast.success("Chat deleted");
     } finally {
       setLoading(false); // hide loader
       setAlertOpen(false);
