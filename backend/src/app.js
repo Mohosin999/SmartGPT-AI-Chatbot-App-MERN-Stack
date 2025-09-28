@@ -78,6 +78,11 @@ app.get("/health", (req, res) => {
   });
 });
 
+app.get("/api-spec", (_req, res) => {
+  res.setHeader("Content-Type", "application/json");
+  res.send(swaggerDoc);
+});
+
 // Global Error Handler
 app.use((err, _req, res, _next) => {
   console.error(err);
