@@ -38,7 +38,7 @@ const ChatItem = ({
               setChatToDelete(chat);
               setAlertOpen(true);
             }}
-            className="p-1 rounded-full hover:bg-sky-500 transition cursor-pointer"
+            className="p-1 rounded-full hover:bg-sky-500 active:scale-105 transition cursor-pointer"
           >
             <BsThreeDots />
           </span>
@@ -56,7 +56,7 @@ const ChatItem = ({
           </AlertDialogHeader>
 
           <div className="flex justify-end gap-2 mt-4">
-            <AlertDialogCancel className="px-3 py-1 rounded border text-sm cursor-pointer select-none">
+            <AlertDialogCancel className="px-3 py-1 rounded border text-sm cursor-pointer select-none active:scale-105">
               Cancel
             </AlertDialogCancel>
             <AlertDialogAction
@@ -64,7 +64,7 @@ const ChatItem = ({
                 onConfirmDelete(chat.id);
                 setAlertOpen(false);
               }}
-              className="bg-red-600 text-white px-3 py-1 rounded text-sm cursor-pointer select-none"
+              className="bg-red-600 text-white px-3 py-1 rounded text-sm cursor-pointer select-none active:scale-105"
             >
               Delete
             </AlertDialogAction>

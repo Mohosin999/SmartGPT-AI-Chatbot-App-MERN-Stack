@@ -21,12 +21,15 @@ const SidebarFooter = ({ token, onLogout, onLogin }) => {
           <h2>Mohosin Hasan Akash</h2>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <button className="text-start text-xs cursor-pointer select-none">
+              <button className="text-start text-xs active:scale-102 cursor-pointer select-none">
                 Settings
               </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-              <DropdownMenuItem onClick={onLogout} className="cursor-pointer">
+              <DropdownMenuItem
+                onClick={onLogout}
+                className="cursor-pointer  active:scale-105"
+              >
                 Logout
               </DropdownMenuItem>
             </DropdownMenuContent>
@@ -38,7 +41,7 @@ const SidebarFooter = ({ token, onLogout, onLogin }) => {
     <Button
       variant="outline"
       onClick={onLogin}
-      className="text-gray-900 w-full mt-4 active:scale-102 cursor-pointer"
+      className="text-gray-900 w-full mt-4 active:scale-105 cursor-pointer"
     >
       <IoMdLogIn className="mr-1" /> Login
     </Button>
