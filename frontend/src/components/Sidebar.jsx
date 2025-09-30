@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,18 +17,53 @@ import SidebarFooter from "./sidebar/SidebarFooter";
 import SidebarHeader from "./sidebar/SidebarHeader";
 import toast from "react-hot-toast";
 
+/**
+ * Sidebar Component
+ * -----------------
+ * Provides a full-featured chat sidebar that allows users to:
+ * - View all chats with search functionality
+ * - Create new chats and automatically generate titles based on the first message
+ * - Select a chat to view its messages
+ * - Delete chats with confirmation
+ * - Logout or navigate to login
+ *
+ * Features:
+ * 1. Uses Redux for global chat and auth state management.
+ * 2. Optimizes chat title synchronization using a batched useEffect that:
+ *    - Fetches all chats from the server
+ *    - Checks if the chat has a proper name
+ *    - If not, derives a title from the first message and updates it in batch
+ * 3. Handles chat creation by:
+ *    - Creating a new chat
+ *    - Fetching the new chat details
+ *    - Updating Redux state
+ *    - Persisting the chat title to the server
+ * 4. Handles chat deletion and updates the currently active chat accordingly
+ *
+ * Props:
+ * @param {function} handleSidebarClose - Optional function to close the sidebar (used in mobile/responsive view)
+ *
+ * Example Usage:
+ * <Sidebar handleSidebarClose={closeSidebarFunction} />
+ */
 const Sidebar = ({ handleSidebarClose }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { allChats, currentChat } = useSelector((state) => state.chat);
   const token = localStorage.getItem("token") || "";
 
-  // States
-  const [searchTerm, setSearchTerm] = useState("");
-  const [chatToDelete, setChatToDelete] = useState(null);
-  const [alertOpen, setAlertOpen] = useState(false);
+  // Local states
+  const [searchTerm, setSearchTerm] = useState(""); // Filter chats by name
+  const [chatToDelete, setChatToDelete] = useState(null); // Stores the chat pending deletion
+  const [alertOpen, setAlertOpen] = useState(false); // Controls delete confirmation modal
 
-  // Optimize the expensive title sync effect
+  /**
+   * useEffect - Synchronize chat titles
+   * ------------------------------------
+   * This effect fetches all chats on mount and checks if they have valid names.
+   * If a chat has a missing or default name, it derives a title from the first
+   * message of the chat and updates it both in Redux and the server.
+   */
   useEffect(() => {
     if (!token) return;
 
@@ -37,7 +73,6 @@ const Sidebar = ({ handleSidebarClose }) => {
 
       const chats = res.payload?.data || [];
 
-      // Batch updates instead of sequential requests
       const syncPromises = chats.map(async (chat) => {
         const name = chat?.name ?? "";
         const needsName =
@@ -60,7 +95,6 @@ const Sidebar = ({ handleSidebarClose }) => {
           const derivedTitle =
             firstMsg.split(" ").slice(0, 4).join(" ") || "Untitled Chat";
 
-          // Batch this update instead of immediate dispatch
           return { chatId: chat.id, title: derivedTitle };
         } catch (err) {
           console.error("Error syncing chat title:", err);
@@ -71,7 +105,6 @@ const Sidebar = ({ handleSidebarClose }) => {
       const results = await Promise.all(syncPromises);
       const validResults = results.filter(Boolean);
 
-      // Batch dispatch updates
       validResults.forEach(({ chatId, title }) => {
         dispatch(updateChatName({ chatId, chatName: title }));
       });
@@ -80,13 +113,15 @@ const Sidebar = ({ handleSidebarClose }) => {
     syncChatTitles();
   }, [dispatch, token]);
 
-  // Handlers
+  /**
+   * Create a new chat and synchronize its title
+   */
   const handleCreateChat = async () => {
     if (!token) return navigate("/login");
-    // Close sidebar
     if (handleSidebarClose) handleSidebarClose();
 
     const res = await dispatch(createChat({}));
+
     if (res.meta.requestStatus === "fulfilled") {
       const chatData = res.payload.data;
       await dispatch(getChatById(chatData.id));
@@ -111,13 +146,19 @@ const Sidebar = ({ handleSidebarClose }) => {
     }
   };
 
+  /**
+   * Fetch a chat by ID and select it
+   * @param {string} chatId - ID of the chat to fetch
+   */
   const handleGetChatById = (chatId) => {
     if (!token) return navigate("/login");
     dispatch(getChatById(chatId));
-    // Close sidebar
     if (handleSidebarClose) handleSidebarClose();
   };
 
+  /**
+   * Confirm and delete a selected chat
+   */
   const handleConfirmDeleteChat = async () => {
     if (!chatToDelete) return;
     const chatId = chatToDelete.id;
@@ -125,6 +166,7 @@ const Sidebar = ({ handleSidebarClose }) => {
     setChatToDelete(null);
 
     const res = await dispatch(deleteChatById(chatId));
+
     if (res.meta.requestStatus === "fulfilled") {
       toast.success("Chat deleted");
       if (currentChat?.data?.id === chatId) {
@@ -136,6 +178,9 @@ const Sidebar = ({ handleSidebarClose }) => {
     }
   };
 
+  /**
+   * Logout the current user
+   */
   const handleLogout = () => {
     dispatch(logoutUser());
     navigate("/loading");
@@ -171,6 +216,11 @@ const Sidebar = ({ handleSidebarClose }) => {
       />
     </div>
   );
+};
+
+// PropTypes for runtime type checking
+Sidebar.propTypes = {
+  handleSidebarClose: PropTypes.func, // Optional function to close sidebar
 };
 
 export default React.memo(Sidebar);

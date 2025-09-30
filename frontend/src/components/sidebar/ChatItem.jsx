@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 import { BsThreeDots } from "react-icons/bs";
 import {
   AlertDialog,
@@ -13,6 +14,32 @@ import {
 import { useSelector } from "react-redux";
 import Loader from "../Loader";
 
+/**
+ * ChatItem Component
+ * ------------------
+ * Represents a single chat item in the chat list.
+ * Features:
+ * 1. Displays the chat name and highlights the selected chat.
+ * 2. Provides a settings/menu button (three dots) for chat actions.
+ * 3. Handles deleting a chat with a confirmation alert dialog.
+ * 4. Shows a loading indicator if a deletion is in progress.
+ *
+ * Props:
+ * @param {Object} chat - Chat object containing at least `id` and `name`
+ * @param {boolean} isSelected - Whether this chat is currently selected
+ * @param {function} onSelectChat - Function called with chat ID when selected
+ * @param {function} setChatToDelete - Setter to mark a chat for deletion
+ * @param {function} onConfirmDelete - Function called to confirm chat deletion
+ *
+ * Example Usage:
+ * <ChatItem
+ *   chat={chat}
+ *   isSelected={currentChat?.id === chat.id}
+ *   onSelectChat={handleSelectChat}
+ *   setChatToDelete={setChatToDelete}
+ *   onConfirmDelete={handleConfirmDelete}
+ * />
+ */
 const ChatItem = ({
   chat,
   isSelected,
@@ -29,22 +56,24 @@ const ChatItem = ({
         isSelected ? "bg-sky-800" : "hover:bg-gray-700"
       }`}
     >
-      {/* Loading Indicator for deleting chat */}
+      {/* Loading Indicator while deleting a chat */}
       {isDeleting && (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
           <Loader title={"Deleting chat..."} />
         </div>
       )}
 
+      {/* Chat name, clickable to select chat */}
       <span className="flex-1" onClick={() => onSelectChat(chat.id)}>
         {chat.name}
       </span>
 
+      {/* Three-dot menu for chat actions (delete) */}
       <AlertDialog open={alertOpen} onOpenChange={setAlertOpen}>
         <AlertDialogTrigger asChild>
           <span
             onClick={(e) => {
-              e.stopPropagation();
+              e.stopPropagation(); // Prevent selecting chat when opening menu
               setChatToDelete(chat);
               setAlertOpen(true);
             }}
@@ -83,6 +112,18 @@ const ChatItem = ({
       </AlertDialog>
     </li>
   );
+};
+
+// PropTypes for runtime type checking
+ChatItem.propTypes = {
+  chat: PropTypes.shape({
+    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    name: PropTypes.string.isRequired,
+  }).isRequired,
+  isSelected: PropTypes.bool,
+  onSelectChat: PropTypes.func.isRequired,
+  setChatToDelete: PropTypes.func.isRequired,
+  onConfirmDelete: PropTypes.func.isRequired,
 };
 
 export default ChatItem;

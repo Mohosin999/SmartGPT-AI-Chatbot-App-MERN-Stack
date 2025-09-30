@@ -28,13 +28,27 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-// Validation schema
-const registerSchema = z.object({
-  name: z.string().min(3, "Name must be at least 3 characters"),
-  email: z.string().email("Invalid email address"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
-});
-
+/**
+ * Register Component
+ * -----------------
+ * A registration form component with full validation and Redux integration.
+ *
+ * Features:
+ * 1. Validates user inputs using Zod schema:
+ *    - Name must be at least 3 characters
+ *    - Email must be a valid email
+ *    - Password must be at least 6 characters
+ * 2. Uses React Hook Form for form state and validation.
+ * 3. Autofocuses the name input field on first render.
+ * 4. Handles registration via Redux dispatch:
+ *    - Shows toast notifications for success or error
+ *    - Redirects to "/loading" after successful registration
+ *    - Clears auth errors automatically
+ * 5. Provides navigation to login page for existing users.
+ *
+ * Example Usage:
+ * <Register />
+ */
 const Register = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -42,18 +56,30 @@ const Register = () => {
 
   const nameInputRef = useRef(null);
 
+  // -----------------------------
   // React Hook Form setup
+  // -----------------------------
+  const registerSchema = z.object({
+    name: z.string().min(3, "Name must be at least 3 characters"),
+    email: z.string().email("Invalid email address"),
+    password: z.string().min(6, "Password must be at least 6 characters"),
+  });
+
   const form = useForm({
     resolver: zodResolver(registerSchema),
     defaultValues: { name: "", email: "", password: "" },
   });
 
-  // Autofocus on first render
+  // -----------------------------
+  // Autofocus on the name input field on first render
+  // -----------------------------
   useEffect(() => {
     nameInputRef.current?.focus();
   }, []);
 
-  // Handle auth state changes
+  // -----------------------------
+  // Watch auth state changes for success or error
+  // -----------------------------
   useEffect(() => {
     if (user) {
       toast.success("Registration successful");
@@ -65,7 +91,13 @@ const Register = () => {
     }
   }, [user, error, form, navigate, dispatch]);
 
-  // ✅ Handlers
+  // -----------------------------
+  // Handlers
+  // -----------------------------
+  /**
+   * Handle registration form submission
+   * @param {Object} values - Form values (name, email, password)
+   */
   const handleRegister = useCallback(
     (values) => {
       dispatch(registerUser(values));
@@ -73,6 +105,9 @@ const Register = () => {
     [dispatch]
   );
 
+  /**
+   * Navigate to the login page
+   */
   const handleNavigateLogin = useCallback(() => {
     navigate("/login");
   }, [navigate]);

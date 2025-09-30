@@ -28,12 +28,25 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-// Schema definition
-const loginSchema = z.object({
-  email: z.string().email("Invalid email address"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
-});
-
+/**
+ * Login Component
+ * ----------------
+ * A fully-featured login form with validation and Redux integration.
+ *
+ * Features:
+ * 1. Validates email and password using Zod schema.
+ * 2. Uses React Hook Form for state management and validation.
+ * 3. Autofocuses the email input on mount.
+ * 4. Handles login action via Redux dispatch.
+ * 5. Reacts to auth state changes:
+ *    - Displays toast notifications on success or error
+ *    - Redirects to "/loading" after successful login
+ *    - Clears auth errors after showing them
+ * 6. Provides navigation to the registration page.
+ *
+ * Example Usage:
+ * <Login />
+ */
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -41,18 +54,29 @@ const Login = () => {
 
   const emailInputRef = useRef(null);
 
+  // -----------------------------
   // React Hook Form setup
+  // -----------------------------
+  const loginSchema = z.object({
+    email: z.string().email("Invalid email address"),
+    password: z.string().min(6, "Password must be at least 6 characters"),
+  });
+
   const form = useForm({
     resolver: zodResolver(loginSchema),
     defaultValues: { email: "", password: "" },
   });
 
-  // Autofocus on first render
+  // -----------------------------
+  // Autofocus on email input on first render
+  // -----------------------------
   useEffect(() => {
     emailInputRef.current?.focus();
   }, []);
 
-  // Handle auth state changes
+  // -----------------------------
+  // Watch for auth state changes
+  // -----------------------------
   useEffect(() => {
     if (user) {
       toast.success("Login successful");
@@ -64,7 +88,13 @@ const Login = () => {
     }
   }, [user, error, form, navigate, dispatch]);
 
-  // ✅ Handlers
+  // -----------------------------
+  // Handlers
+  // -----------------------------
+  /**
+   * Handle form submission and dispatch login action
+   * @param {Object} values - Form values (email, password)
+   */
   const handleLogin = useCallback(
     (values) => {
       dispatch(loginUser(values));
@@ -72,6 +102,9 @@ const Login = () => {
     [dispatch]
   );
 
+  /**
+   * Navigate to registration page
+   */
   const handleNavigateRegister = useCallback(() => {
     navigate("/register");
   }, [navigate]);
