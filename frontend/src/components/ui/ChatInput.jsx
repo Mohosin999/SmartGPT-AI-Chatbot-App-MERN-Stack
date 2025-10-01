@@ -115,7 +115,7 @@ const ChatInput = forwardRef(({ onSend }, ref) => {
           onChange={handleInput}
           onInput={adjustHeight}
           onKeyDown={handleKeyDown}
-          placeholder="Type your message..."
+          placeholder="Ask without limits..."
           rows={1}
           disabled={!token}
           className={`w-full resize-none overflow-hidden rounded-xl bg-transparent px-4 py-3 pr-14 text-gray-800 focus:outline-none focus:ring-0 transition-all duration-150 max-h-60 ${

@@ -178,7 +178,7 @@ const ContentArea = () => {
             <div className="absolute inset-0 flex flex-col items-center justify-center">
               <img src="./vite.svg" alt="Logo" className="w-30 h-30 mb-4" />
               <h2 className="text-4xl md:text-5xl px-4 md:px-0 font-semibold text-gray-800 mb-10">
-                Ask me anything
+                What’s on your mind?
               </h2>
             </div>
           ) : currentChat?.data?.messages?.length > 0 ? (
@@ -192,7 +192,7 @@ const ContentArea = () => {
             <div className="absolute inset-0 flex flex-col items-center justify-center">
               <img src="./vite.svg" alt="Logo" className="w-30 h-30 mb-4" />
               <h2 className="text-4xl md:text-5xl px-4 md:px-0 font-semibold text-gray-800 mb-10">
-                Ask me anything
+                What’s on your mind?
               </h2>
             </div>
           )}
