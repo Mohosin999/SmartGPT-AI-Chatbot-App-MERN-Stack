@@ -57,6 +57,7 @@ The platform is protected by a strong authentication system, ensuring that only 
 - **`Frontend:`**
 
   - React 19 + Vite
+  - JavaScript
   - Tailwind CSS + shadcn/ui
   - Redux Toolkit + Redux Persist
   - React Router DOM
@@ -70,6 +71,7 @@ The platform is protected by a strong authentication system, ensuring that only 
 
 - **`Backend:`**
   - Node.js & Express.js
+  - JavaScript
   - MongoDB + Mongoose
   - JWT + bcryptjs
   - Swagger UI + Express OpenAPI Validator + YAMLJS
