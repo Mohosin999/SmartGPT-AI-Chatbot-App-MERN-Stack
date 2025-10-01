@@ -96,6 +96,13 @@ The platform is protected by a strong authentication system, ensuring that only 
     ✔️ npm run dev
 ```
 
+**Access app at:**
+
+```
+Backend API: http://localhost:3000
+Frontend: http://localhost:5173
+```
+
 ## 🔑 Environment Variables
 
 Create a `.env` file in the root directory of the project and add the following variables:
@@ -120,13 +127,6 @@ IMAGEKIT_URL_ENDPOINT=
 
 ```
 VITE_BASE_URL=http://localhost:3000/api/v1
-```
-
-**Access app at:**
-
-```
-Frontend: http://localhost:5173
-Backend API: http://localhost:3000
 ```
 
 ## 📬 Author Info
