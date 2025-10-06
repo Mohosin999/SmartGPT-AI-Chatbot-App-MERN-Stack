@@ -12,7 +12,7 @@ console.log(swaggerPath);
 const swaggerDoc = YAML.load(swaggerPath);
 
 const applyMiddleware = (app) => {
-  app.use(cors({ origin: "*" }));
+  app.use(cors());
   app.use(morgan("dev"));
   app.use(express.json());
 
