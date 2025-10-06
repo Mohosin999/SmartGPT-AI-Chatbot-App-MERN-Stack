@@ -88,22 +88,25 @@ The platform is protected by a strong authentication system, ensuring that only 
 
 ```
 ✅ git clone https://github.com/Mohosin999/AI-Chatbot-SmartGPT-App-MERN-Stack.git
+```
 
+Here you will find two folders `backend` and `frontend`
+
+```
 ✅ cd backend
     ✔️ npm install
     ✔️ npm run dev
+```
 
+Backend runs at: http://localhost:3000
+
+```
 ✅ cd frontend
     ✔️ npm install
     ✔️ npm run dev
 ```
 
-**Access app at:**
-
-```
-Backend API: http://localhost:3000
-Frontend: http://localhost:5173
-```
+Frontend runs at: http://localhost:5173
 
 ## 🔑 Environment Variables
 
