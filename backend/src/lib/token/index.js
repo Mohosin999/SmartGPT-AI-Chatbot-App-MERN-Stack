@@ -5,7 +5,7 @@ const generateToken = ({
   payload,
   algorithm = "HS256",
   secret = process.env.ACCESS_TOKEN_SECRET,
-  expiresIn = "1d",
+  expiresIn = "365d",
 }) => {
   try {
     return jwt.sign(payload, secret, { expiresIn, algorithm });
