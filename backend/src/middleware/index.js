@@ -12,7 +12,7 @@ console.log(swaggerPath);
 const swaggerDoc = YAML.load(swaggerPath);
 
 const applyMiddleware = (app) => {
-  app.use(cors());
+  app.use(cors({ origin: "https://smartgpt-server.onrender.com/docs" }));
   app.use(morgan("dev"));
   app.use(express.json());
 
