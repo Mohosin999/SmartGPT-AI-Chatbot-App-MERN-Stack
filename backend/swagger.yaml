@@ -10,7 +10,7 @@ info:
     email: mohosin.hasan.akash@gmail.com
 servers:
   - description: Production
-    url: https://smartgpt-server.onrender.com
+    url: https://smartgpt-server.onrender.com/api/v1
   - description: Dev
     url: http://localhost:3000/api/v1
 tags:
