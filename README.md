@@ -97,15 +97,15 @@ git clone https://github.com/Mohosin999/AI-Chatbot-SmartGPT-App-MERN-Stack.git
 
 Here you will find two folders `backend` and `frontend`
 
-🟡 cd backend
-🟡 npm install
-🟡 npm run dev
+- cd backend
+- npm install
+- npm run dev
 
 Backend runs at: http://localhost:3000
 
-🟡 cd frontend
-🟡 npm install
-🟡 npm run dev
+- cd frontend
+- npm install
+- npm run dev
 
 Frontend runs at: http://localhost:5173
 
