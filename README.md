@@ -4,6 +4,7 @@
 
 - [Description](#-description)
 - [Live Demo](#-live-demo)
+- [API Documentation with Swagger](#-api-documentation-with-swagger)
 - [Features](#-features)
 - [Tech Stack](#️-tech-stack)
 - [Setup and Installation](#️-setup-and-installation)
@@ -19,6 +20,10 @@ The platform is protected by a strong authentication system, ensuring that only 
 ## 🚀 Live Demo
 
 [![Project Screenshot](./frontend/public/readme_file_img.png)](https://smart-gpt-app-client.vercel.app/)
+
+## 🔍 API Documentation with Swagger
+
+Explore the full API documentation here: https://smartgpt-server.onrender.com/docs
 
 ## ✨ Features
 
@@ -87,24 +92,20 @@ The platform is protected by a strong authentication system, ensuring that only 
 ### Step-by-step instructions for cloning and running locally:
 
 ```
-✅ git clone https://github.com/Mohosin999/AI-Chatbot-SmartGPT-App-MERN-Stack.git
+git clone https://github.com/Mohosin999/AI-Chatbot-SmartGPT-App-MERN-Stack.git
 ```
 
 Here you will find two folders `backend` and `frontend`
 
-```
-✅ cd backend
-    ✔️ npm install
-    ✔️ npm run dev
-```
+🟡 cd backend
+🟡 npm install
+🟡 npm run dev
 
 Backend runs at: http://localhost:3000
 
-```
-✅ cd frontend
-    ✔️ npm install
-    ✔️ npm run dev
-```
+🟡 cd frontend
+🟡 npm install
+🟡 npm run dev
 
 Frontend runs at: http://localhost:5173
 
