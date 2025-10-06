@@ -9,6 +9,8 @@ info:
     url: https://personal-portfolio-website-brown-nine.vercel.app/
     email: mohosin.hasan.akash@gmail.com
 servers:
+  - description: Production
+    url: https://smartgpt-server.onrender.com
   - description: Dev
     url: http://localhost:3000/api/v1
 tags:
