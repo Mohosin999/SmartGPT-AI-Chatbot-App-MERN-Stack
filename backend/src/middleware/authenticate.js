@@ -6,11 +6,15 @@ const authenticate = async (req, _res, next) => {
   const token = req.headers.authorization.split(" ")[1];
 
   try {
-    const decoded = tokenService.verifyToken({ token });
+    const decoded = tokenService.verifyAccessToken({ token });
     const user = await userService.findUserByEmail(decoded.email);
 
+    // if (!user) {
+    //   next(authenticationError());
+    // }
+
     if (!user) {
-      next(authenticationError());
+      return next(authenticationError());
     }
 
     // Attach user to request

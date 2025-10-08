@@ -2,6 +2,17 @@ const { User } = require("../../model");
 const { badRequest } = require("../../utils/error");
 
 /**
+ * Find a user by refresh token.
+ *
+ * @param {string} refreshToken - User's refresh token.
+ * @returns {Promise<Object|boolean>} User object if found, otherwise false.
+ */
+const findUserByRefreshToken = async (refreshToken) => {
+  const user = await User.findOne({ refreshToken });
+  return user ? user : false;
+};
+
+/**
  * Find a user by email.
  *
  * @param {string} email - User's email address.
@@ -40,4 +51,9 @@ const createUser = async ({ name, email, password }) => {
   return { ...user._doc, id: user.id };
 };
 
-module.exports = { findUserByEmail, userExist, createUser };
+module.exports = {
+  findUserByRefreshToken,
+  findUserByEmail,
+  userExist,
+  createUser,
+};

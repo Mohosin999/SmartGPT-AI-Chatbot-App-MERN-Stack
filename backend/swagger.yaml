@@ -66,6 +66,9 @@ paths:
                       access_token:
                         type: string
                         example: "21545saf4D5EV1fw54aDA21f5a4we4DS545a45sf43a3a3faaa21CVDW545saf451fw54SSa21f5a4we4545aE45sf43a3a3fFCVADFaaa"
+                      refresh_token:
+                        type: string
+                        example: "ac5ff661-a686-4cbf-868a-5b9c2753b367"
                   links:
                     type: object
                     properties:
@@ -119,6 +122,9 @@ paths:
                       access_token:
                         type: string
                         example: "21545saf4D5EV1fw54aDA21f5a4we4DS545a45sf43a3a3faaa21CVDW545saf451fw54SSa21f5a4we4545aE45sf43a3a3fFCVADFaaa"
+                      refresh_token:
+                        type: string
+                        example: "ac5ff661-a686-4cbf-868a-5b9c2753b367"
                   links:
                     type: object
                     properties:
@@ -129,6 +135,78 @@ paths:
           $ref: "#/components/responses/400"
         "500":
           $ref: "#/components/responses/500"
+  "/auth/logout":
+    post:
+      security:
+        - bearerAuth: []
+      description: Logout from Your Account
+      tags: [Auth]
+      responses:
+        "200":
+          description: Logged out successfully
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 200
+                  message:
+                    type: string
+                    example: Logged out successfully
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "500":
+          $ref: "#/components/responses/500"
+  "/auth/refresh":
+    post:
+      description: Refresh Your Access Token
+      tags: [Auth]
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              type: object
+              properties:
+                refresh_token:
+                  type: string
+                  example: "ac5ff661-a686-4cbf-868a-5b9c2753b367"
+              required: [refresh_token]
+      responses:
+        "200":
+          description: Access token with refresh token successfully generated
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 200
+                  message:
+                    type: string
+                    example: Access token with refresh token successfully generated
+                  data:
+                    type: object
+                    properties:
+                      access_token:
+                        type: string
+                        example: "21545saf4D5EV1fw54aDA21f5a4we4DS545a45sf43a3a3faaa21CVDW545saf451fw54SSa21f5a4we4545aE45sf43a3a3fFCVADFaaa"
+                      refresh_token:
+                        type: string
+                        example: "ac5ff661-a686-4cbf-868a-5b9c2753b367"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "500":
+          $ref: "#/components/responses/500"
+
   "/chats":
     get:
       security:

@@ -1,5 +1,9 @@
 const authService = require("../../../../lib/auth");
-const { generateToken } = require("../../../../lib/token");
+const {
+  generateAccessToken,
+  generateRefreshToken,
+} = require("../../../../lib/token");
+const { User } = require("../../../../model");
 
 const register = async (req, res, next) => {
   const { name, email, password } = req.body;
@@ -14,7 +18,14 @@ const register = async (req, res, next) => {
       email: user.email,
     };
 
-    const accessToken = generateToken({ payload });
+    const accessToken = generateAccessToken({ payload });
+    const { refreshToken, expiresAt } = generateRefreshToken();
+
+    // Save refresh token to database
+    await User.findByIdAndUpdate(user.id, {
+      refreshToken,
+      refreshTokenExpiresAt: expiresAt,
+    });
 
     // Response
     const response = {
@@ -22,6 +33,7 @@ const register = async (req, res, next) => {
       message: "User Created Successfully",
       data: {
         access_token: accessToken,
+        refresh_token: refreshToken,
       },
       links: {
         self: "/auth/register",

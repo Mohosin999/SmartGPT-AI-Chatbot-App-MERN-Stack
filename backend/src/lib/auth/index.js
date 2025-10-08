@@ -1,7 +1,8 @@
 const { userExist, createUser, findUserByEmail } = require("../user");
 const { badRequest } = require("../../utils/error");
 const { generateHash, hashMatched } = require("../../utils/hashing");
-const { generateToken } = require("../token");
+const { generateAccessToken, generateRefreshToken } = require("../token");
+const { User } = require("../../model");
 
 /**
  * Register a new user.
@@ -52,7 +53,16 @@ const login = async ({ email, password }) => {
     role: user.role,
   };
 
-  return generateToken({ payload });
+  const accessToken = generateAccessToken({ payload });
+  const { refreshToken, expiresAt } = generateRefreshToken();
+
+  // Save refresh token to database
+  await User.findByIdAndUpdate(user.id, {
+    refreshToken,
+    refreshTokenExpiresAt: expiresAt,
+  });
+
+  return { accessToken, refreshToken };
 };
 
 module.exports = {
