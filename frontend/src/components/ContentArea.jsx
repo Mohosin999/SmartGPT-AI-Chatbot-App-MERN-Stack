@@ -42,7 +42,9 @@ const ContentArea = () => {
   const chatContainerRef = useRef(null);
   const chatInputRef = useRef(null);
   const dispatch = useDispatch();
-  const token = localStorage.getItem("token");
+
+  const accessToken = localStorage.getItem("accessToken");
+  const refreshToken = localStorage.getItem("refreshToken");
 
   /**
    * useEffect - Auto-scroll chat container
@@ -91,11 +93,11 @@ const ContentArea = () => {
    * - No AI generation is in progress
    */
   useEffect(() => {
-    if (!token) return;
+    if (!accessToken) return;
     if (currentChat?.data?.messages.length === 0) {
       chatInputRef.current?.focus();
     }
-  }, [token, currentChat?.data?.messages, isGenerating]);
+  }, [accessToken, currentChat?.data?.messages, isGenerating]);
 
   /**
    * Send message or image prompt
@@ -110,7 +112,7 @@ const ContentArea = () => {
    * @param {boolean} isImage - Whether the input is an image prompt
    */
   const handleSend = async (text, isImage) => {
-    if (!token) return;
+    if (!accessToken) return;
 
     let currentChatId = currentChat?.data?.id;
 
@@ -174,7 +176,7 @@ const ContentArea = () => {
         ref={chatContainerRef}
       >
         <div className="px-4 xl:pr-1 relative flex-1">
-          {!token ? (
+          {!accessToken ? (
             <div className="absolute inset-0 flex flex-col items-center justify-center">
               <img src="./vite.svg" alt="Logo" className="w-30 h-30 mb-4" />
               <h2 className="text-4xl md:text-5xl px-4 md:px-0 font-semibold text-gray-800 mb-10">
@@ -205,7 +207,9 @@ const ContentArea = () => {
       </div>
 
       {/* Loader overlay while AI is generating */}
-      {isGenerating && <Loader title="Generating full response..." />}
+      {isGenerating && refreshToken && (
+        <Loader title="Generating full response..." />
+      )}
     </div>
   );
 };

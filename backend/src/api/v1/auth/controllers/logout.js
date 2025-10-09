@@ -2,9 +2,8 @@ const { User } = require("../../../../model");
 
 const logout = async (req, res, next) => {
   try {
-    console.log("user", req.user.id);
-
     const userId = req.user?.id;
+    console.log("akash", userId);
 
     if (!userId) {
       return res.status(401).json({

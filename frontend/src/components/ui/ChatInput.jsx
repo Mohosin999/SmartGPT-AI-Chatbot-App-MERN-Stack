@@ -34,7 +34,7 @@ const ChatInput = forwardRef(({ onSend }, ref) => {
   const [value, setValue] = useState(""); // Current input value
   const [isImage, setIsImage] = useState(false); // Whether to send message as an image
   const textareaRef = useRef(null); // Ref to the textarea DOM element
-  const token = localStorage.getItem("token") || ""; // Auth token for enabling input
+  const token = localStorage.getItem("accessToken") || ""; // Auth token for enabling input
 
   /**
    * Adjust textarea height based on content to auto-expand

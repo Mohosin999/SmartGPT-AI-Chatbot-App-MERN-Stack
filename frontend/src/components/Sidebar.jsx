@@ -50,7 +50,7 @@ const Sidebar = ({ handleSidebarClose }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { allChats, currentChat } = useSelector((state) => state.chat);
-  const token = localStorage.getItem("token") || "";
+  const token = localStorage.getItem("accessToken") || "";
 
   // Local states
   const [searchTerm, setSearchTerm] = useState(""); // Filter chats by name

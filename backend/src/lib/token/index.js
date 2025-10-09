@@ -1,12 +1,13 @@
 const jwt = require("jsonwebtoken");
 const { v4: uuidv4 } = require("uuid");
-const { serverError } = require("../../utils/error");
+const { serverError, notFound } = require("../../utils/error");
+const { User } = require("../../model");
 
 const generateAccessToken = ({
   payload,
   algorithm = "HS256",
   secret = process.env.ACCESS_TOKEN_SECRET,
-  expiresIn = "15m",
+  expiresIn = "1m",
 }) => {
   try {
     return jwt.sign(payload, secret, { expiresIn, algorithm });
@@ -18,7 +19,7 @@ const generateAccessToken = ({
 
 const generateRefreshToken = () => {
   const refreshToken = uuidv4();
-  const expiresAt = new Date(Date.now() + 4 * 60 * 60 * 1000); // 4 hours from now
+  const expiresAt = new Date(Date.now() + 2 * 60 * 1000); // 4 hours from now
   return { refreshToken, expiresAt };
 };
 

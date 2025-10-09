@@ -12,7 +12,7 @@
 //       if (!accessToken)
 //         return rejectWithValue("No authentication accessToken found");
 
-//       const res = await api.post(
+//       const res = await axios.post(
 //         `${import.meta.env.VITE_BASE_URL}/chats`,
 //         userData,
 //         {
@@ -38,7 +38,7 @@
 //       if (!accessToken)
 //         return rejectWithValue("No authentication accessToken found");
 
-//       const res = await api.get(`${import.meta.env.VITE_BASE_URL}/chats`, {
+//       const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/chats`, {
 //         headers: { Authorization: `Bearer ${accessToken}` },
 //       });
 
@@ -60,7 +60,7 @@
 //       if (!accessToken)
 //         return rejectWithValue("No authentication accessToken found");
 
-//       const res = await api.get(
+//       const res = await axios.get(
 //         `${import.meta.env.VITE_BASE_URL}/chats/${chatId}`,
 //         {
 //           headers: { Authorization: `Bearer ${accessToken}` },
@@ -85,7 +85,7 @@
 //       if (!accessToken)
 //         return rejectWithValue("No authentication accessToken found");
 
-//       await api.delete(`${import.meta.env.VITE_BASE_URL}/chats/${chatId}`, {
+//       await axios.delete(`${import.meta.env.VITE_BASE_URL}/chats/${chatId}`, {
 //         headers: { Authorization: `Bearer ${accessToken}` },
 //       });
 
@@ -107,7 +107,7 @@
 //       if (!accessToken)
 //         return rejectWithValue("No authentication accessToken found");
 
-//       const res = await api.post(
+//       const res = await axios.post(
 //         `${import.meta.env.VITE_BASE_URL}/messages`,
 //         messageData,
 //         {
@@ -135,7 +135,7 @@
 //       console.log("imageData", imageData);
 //       console.log("accessToken", accessToken);
 
-//       const res = await api.post(
+//       const res = await axios.post(
 //         `${import.meta.env.VITE_BASE_URL}/images`,
 //         imageData,
 //         {
