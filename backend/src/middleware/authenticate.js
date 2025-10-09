@@ -9,10 +9,6 @@ const authenticate = async (req, _res, next) => {
     const decoded = tokenService.verifyAccessToken({ token });
     const user = await userService.findUserByEmail(decoded.email);
 
-    // if (!user) {
-    //   next(authenticationError());
-    // }
-
     if (!user) {
       return next(authenticationError());
     }

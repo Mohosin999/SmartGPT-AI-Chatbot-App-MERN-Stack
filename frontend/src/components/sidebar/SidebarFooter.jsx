@@ -1,86 +1,140 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Button } from "../ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuContent,
-  DropdownMenuItem,
-} from "@/components/ui/dropdown-menu";
+  AlertDialog,
+  AlertDialogTrigger,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogCancel,
+  AlertDialogAction,
+} from "@/components/ui/alert-dialog";
 import { IoMdLogIn } from "react-icons/io";
+import { LogOut } from "lucide-react";
+import { Switch } from "../ui/switch";
 
-/**
- * SidebarFooter Component
- * -----------------------
- * This component renders the footer section of the sidebar, which provides:
- * - User avatar and name if the user is logged in
- * - A settings dropdown with logout functionality
- * - A login button if the user is not logged in
- *
- * Features:
- * 1. Uses conditional rendering based on the presence of a `token` prop.
- * 2. Shows the user's avatar and name with a dropdown menu for settings and logout.
- * 3. Shows a login button when the user is not authenticated.
- *
- * Props:
- * @param {string} token - Authentication token; if present, shows user info and logout
- * @param {function} onLogout - Function to call when the user clicks logout
- * @param {function} onLogin - Function to call when the user clicks login
- *
- * Example Usage:
- * <SidebarFooter
- *   token={userToken}
- *   onLogout={handleLogout}
- *   onLogin={handleLogin}
- * />
- */
 const SidebarFooter = ({ token, onLogout, onLogin }) => {
-  return token ? (
-    // User is logged in: show avatar, name, and settings dropdown
-    <div className="mt-4 border-gray-700 flex items-center justify-between">
-      <div className="flex items-center gap-2">
-        <Avatar>
-          <AvatarImage src="https://github.com/shadcn.png" />
-          <AvatarFallback>CN</AvatarFallback>
-        </Avatar>
-        <div className="flex flex-col">
-          <h2>Mohosin Hasan Akash</h2>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <button className="text-start text-xs active:scale-102 cursor-pointer select-none">
-                Settings
-              </button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuItem
-                onClick={onLogout}
-                className="cursor-pointer active:scale-105"
-              >
-                Logout
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
+  const [alertOpen, setAlertOpen] = useState(false);
+
+  // Theme state
+  const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
+
+  useEffect(() => {
+    if (theme === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+    localStorage.setItem("theme", theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === "light" ? "dark" : "light"));
+  };
+
+  return (
+    <div className="flex flex-col gap-2 border-t border-gray-700">
+      {/* Theme switch */}
+      {/* <div className="flex items-center justify-between mt-2">
+        <span className="text-sm font-semibold text-[#48A4FF]">
+          {theme === "light" ? "Dark Theme" : "Light Theme"}
+        </span>
+        <Switch checked={theme === "dark"} onCheckedChange={toggleTheme} />
+      </div> */}
+      <div className="flex items-center justify-between mt-2 p-2 bg-gray-800 dark:bg-gray-700 rounded-lg shadow-sm transition-colors duration-300">
+        <span
+          className="text-sm font-semibold text-[#48A4FF] transition-all duration-300 ease-in-out transform"
+          style={{
+            transitionProperty: "opacity, transform",
+            opacity: theme === "light" ? 1 : 1,
+            transform:
+              theme === "light" ? "translateY(0px)" : "translateY(0px)",
+          }}
+        >
+          {theme === "light" ? "Dark Theme" : "Light Theme"}
+        </span>
+        <Switch checked={theme === "dark"} onCheckedChange={toggleTheme} />
       </div>
+
+      {/* Divider */}
+      <div className="border-t border-gray-700 mb-2"></div>
+
+      {token ? (
+        // Logged-in view
+        <div className="border-gray-700 flex items-center justify-between mb-6">
+          <div className="flex items-center gap-2">
+            <Avatar className="w-10 h-10">
+              <AvatarImage src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_LnhwLXP1Ue8GYWenpakaD7tOQH-kjtRUSA&s" />
+              <AvatarFallback>CN</AvatarFallback>
+            </Avatar>
+            <div className="flex flex-col">
+              <h2>Mohosin Hasan Akash</h2>
+
+              {/* Logout Confirmation Dialog */}
+              <AlertDialog open={alertOpen} onOpenChange={setAlertOpen}>
+                <AlertDialogTrigger asChild>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setAlertOpen(true);
+                    }}
+                    className="text-xs text-start text-gray-300 cursor-pointer active:scale-105 select-none flex items-center gap-1"
+                  >
+                    <LogOut size={14} /> Logout
+                  </button>
+                </AlertDialogTrigger>
+
+                <AlertDialogContent className="w-96 !p-4">
+                  <AlertDialogHeader>
+                    <AlertDialogTitle className="text-base font-medium">
+                      Log Out
+                    </AlertDialogTitle>
+                    <AlertDialogDescription className="text-sm lg:text-base text-gray-700 mt-1">
+                      Are you sure you want to log out? You’ll need to log in
+                      again to access your account.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+
+                  <div className="flex justify-end gap-2 mt-4">
+                    <AlertDialogCancel className="px-3 py-1 rounded border text-sm cursor-pointer select-none active:scale-105">
+                      Cancel
+                    </AlertDialogCancel>
+                    <AlertDialogAction
+                      onClick={() => {
+                        onLogout();
+                        setAlertOpen(false);
+                      }}
+                      className="bg-red-600 text-white px-3 py-1 rounded text-sm cursor-pointer select-none active:scale-105"
+                    >
+                      Logout
+                    </AlertDialogAction>
+                  </div>
+                </AlertDialogContent>
+              </AlertDialog>
+            </div>
+          </div>
+        </div>
+      ) : (
+        // Logged-out view
+        <Button
+          variant="outline"
+          onClick={onLogin}
+          className="text-gray-900 dark:bg-gray-100 w-full mb-6 active:scale-105 cursor-pointer"
+        >
+          <IoMdLogIn className="mr-1" /> Login
+        </Button>
+      )}
     </div>
-  ) : (
-    // User is not logged in: show login button
-    <Button
-      variant="outline"
-      onClick={onLogin}
-      className="text-gray-900 w-full mt-4 active:scale-105 cursor-pointer"
-    >
-      <IoMdLogIn className="mr-1" /> Login
-    </Button>
   );
 };
 
-// PropTypes for runtime type checking
 SidebarFooter.propTypes = {
-  token: PropTypes.string, // Authentication token; optional
-  onLogout: PropTypes.func.isRequired, // Function to log out user
-  onLogin: PropTypes.func.isRequired, // Function to log in user
+  token: PropTypes.string,
+  onLogout: PropTypes.func.isRequired,
+  onLogin: PropTypes.func.isRequired,
 };
 
 export default SidebarFooter;

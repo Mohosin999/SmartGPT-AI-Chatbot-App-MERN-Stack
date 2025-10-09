@@ -16,19 +16,12 @@ import { FaPlus } from "react-icons/fa6";
  * @param {string} searchTerm - Current search text to filter chats.
  * @param {function} setSearchTerm - Setter function to update the search text.
  * @param {function} onCreateChat - Callback function triggered when the "Add New Chat" button is clicked.
- *
- * Example Usage:
- * <SidebarHeader
- *   searchTerm={searchTerm}
- *   setSearchTerm={setSearchTerm}
- *   onCreateChat={handleCreateChat}
- * />
  */
 const SidebarHeader = ({ searchTerm, setSearchTerm, onCreateChat }) => {
   return (
     <div>
       {/* Branding / Logo Section */}
-      <div className="flex items-center justify-center my-5 pb-3 xl:mb-6">
+      <div className="flex items-center justify-center my-6">
         <img src="./vite.svg" alt="App Logo" className="w-8 h-8" />
         <h2 className="text-2xl font-bold ml-2">SmartGPT</h2>
       </div>
@@ -37,7 +30,7 @@ const SidebarHeader = ({ searchTerm, setSearchTerm, onCreateChat }) => {
       <Button
         variant="outline"
         onClick={onCreateChat}
-        className="w-full mb-3 text-gray-900 hover:bg-gray-200 hover:border-gray-200 active:scale-102 cursor-pointer select-none"
+        className="w-full mb-3 text-gray-900 dark:bg-gray-100 active:scale-102 cursor-pointer"
       >
         <FaPlus className="mr-1" /> Add New Chat
       </Button>
@@ -46,7 +39,7 @@ const SidebarHeader = ({ searchTerm, setSearchTerm, onCreateChat }) => {
       <Input
         type="text"
         placeholder="Search chats..."
-        className="text-white placeholder:text-gray-300 mb-3 selection:bg-orange-400"
+        className="text-white placeholder:text-gray-300 selection:bg-orange-400 outline-none border-gray-500"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />

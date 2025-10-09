@@ -4,28 +4,6 @@ import { FiMenu, FiX } from "react-icons/fi";
 import { Button } from "@/components/ui/button";
 import Sidebar from "@/components/Sidebar";
 
-/**
- * Home Component
- * --------------
- * This is the main layout of the SmartGPT application.
- * It includes:
- * 1. A responsive sidebar (visible on large screens, slide-in on small screens)
- * 2. A header with a menu button for small screens
- * 3. A main content area
- *
- * Features:
- * - Responsive sidebar:
- *   - Large screens: always visible
- *   - Small screens: slide-in with overlay, closes on clicking overlay or X button
- * - Header only visible on small screens with menu button
- * - Main content area adapts to the remaining width
- *
- * State:
- * - isSidebarOpen (boolean): Tracks if the sidebar is open on small screens
- *
- * Example Usage:
- * <Home />
- */
 const Home = () => {
   // Controls sidebar visibility on small screens
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -42,12 +20,12 @@ const Home = () => {
           - Menu button (opens sidebar)
           - App title
       ------------------ */}
-      <header className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-white border-b shadow-sm">
+      <header className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-white dark:bg-[#212121] border-b shadow-sm">
         <div className="flex items-center justify-between px-4 py-3">
           <Button
             size="icon"
             onClick={() => setIsSidebarOpen(true)}
-            className="bg-transparent text-gray-950 hover:bg-transparent shadow-none hover:text-orange-800 active:border-2 border-gray-900"
+            className="bg-transparent text-gray-950 dark:text-white hover:bg-transparent shadow-none hover:text-orange-800 active:border-2 border-gray-900"
           >
             <FiMenu size={24} />
           </Button>
@@ -66,7 +44,7 @@ const Home = () => {
       ------------------------------- */}
       <div className="flex flex-1">
         {/* Sidebar - Large screens */}
-        <aside className="hidden lg:block w-1/4 bg-indigo-950 h-screen">
+        <aside className="hidden lg:block w-1/4 bg-[#181818] h-screen">
           <Sidebar />
         </aside>
 
@@ -85,7 +63,7 @@ const Home = () => {
           ></div>
 
           {/* Sidebar panel */}
-          <div className="relative w-64 bg-indigo-950 text-white h-full shadow-lg flex flex-col">
+          <div className="relative w-64 bg-[#181818] text-white h-full shadow-lg flex flex-col">
             {/* Close button */}
             <button
               className="absolute top-3 right-3 text-white hover:text-red-500"

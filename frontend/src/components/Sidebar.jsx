@@ -191,7 +191,7 @@ const Sidebar = ({ handleSidebarClose }) => {
   );
 
   return (
-    <div className="flex flex-col h-screen p-3 xl:p-4 bg-sky-950 text-white">
+    <div className="flex flex-col h-screen px-3 xl:px-4 bg-[#181818] text-white">
       <SidebarHeader
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}

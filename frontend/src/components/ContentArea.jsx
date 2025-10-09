@@ -169,18 +169,18 @@ const ContentArea = () => {
   };
 
   return (
-    <div className="h-screen flex flex-col relative">
+    <div className="h-screen bg-[#f5ebeb] dark:bg-[#212121] pb-6 pt-16 lg:pt-6 flex flex-col relative">
       {/* Chat messages container */}
       <div
-        className="flex-1 flex flex-col overflow-y-auto mt-16 lg:mt-4 mb-4"
+        className="flex-1 flex flex-col overflow-y-auto"
         ref={chatContainerRef}
       >
         <div className="px-4 xl:pr-1 relative flex-1">
           {!accessToken ? (
             <div className="absolute inset-0 flex flex-col items-center justify-center">
               <img src="./vite.svg" alt="Logo" className="w-30 h-30 mb-4" />
-              <h2 className="text-4xl md:text-5xl px-4 md:px-0 font-semibold text-gray-800 mb-10">
-                What’s on your mind?
+              <h2 className="text-3xl md:text-5xl px-4 md:px-0 font-semibold text-gray-800 dark:text-gray-100 mb-10">
+                What’s on your <span className="text-[#48A4FF]">mind?</span>
               </h2>
             </div>
           ) : currentChat?.data?.messages?.length > 0 ? (
@@ -193,8 +193,8 @@ const ContentArea = () => {
           ) : (
             <div className="absolute inset-0 flex flex-col items-center justify-center">
               <img src="./vite.svg" alt="Logo" className="w-30 h-30 mb-4" />
-              <h2 className="text-4xl md:text-5xl px-4 md:px-0 font-semibold text-gray-800 mb-10">
-                What’s on your mind?
+              <h2 className="text-3xl md:text-5xl px-4 md:px-0 font-semibold text-gray-800 dark:text-gray-100 mb-10">
+                What’s on your <span className="text-[#48A4FF]">mind?</span>
               </h2>
             </div>
           )}
@@ -202,7 +202,7 @@ const ContentArea = () => {
       </div>
 
       {/* Chat input area */}
-      <div className="w-full md:max-w-2xl xl:max-w-3xl mx-auto pb-4">
+      <div className="w-full md:max-w-2xl xl:max-w-3xl mx-auto">
         <ChatInput ref={chatInputRef} onSend={handleSend} />
       </div>
 

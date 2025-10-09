@@ -26,19 +26,6 @@ import ChatItem from "./ChatItem";
  * @param {boolean} alertOpen - Whether the delete confirmation modal is open
  * @param {function} setAlertOpen - Setter for alertOpen state
  * @param {function} onConfirmDelete - Function to confirm deletion of a chat
- *
- * Example Usage:
- * <ChatList
- *   token={userToken}
- *   chats={allChats}
- *   currentChat={selectedChat}
- *   onSelectChat={handleSelectChat}
- *   chatToDelete={chatToDelete}
- *   setChatToDelete={setChatToDelete}
- *   alertOpen={alertOpen}
- *   setAlertOpen={setAlertOpen}
- *   onConfirmDelete={handleConfirmDelete}
- * />
  */
 const ChatList = ({
   token,
@@ -67,7 +54,7 @@ const ChatList = ({
 
   // Render list of chats
   return (
-    <div className="flex-1 overflow-y-auto mt-4 space-y-2 no-scrollbar scroll-smooth">
+    <div className="flex-1 overflow-y-auto my-5 space-y-2 no-scrollbar scroll-smooth">
       <ul>
         {chats?.map((chat) => (
           <ChatItem

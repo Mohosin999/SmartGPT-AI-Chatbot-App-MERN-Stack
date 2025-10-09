@@ -44,8 +44,8 @@ const Message = ({ msg }) => {
           msg.isImage ? "max-w-[100%] lg:max-w-[60%]" : "lg:max-w-[90%]"
         } ${
           msg.role === "user"
-            ? "bg-sky-800 text-white rounded-br-none"
-            : "text-gray-900 rounded-bl-none"
+            ? "bg-gray-300 dark:bg-[#303030] text-gray-900 dark:text-gray-200 rounded-br-none"
+            : "text-gray-900 dark:text-gray-200 rounded-bl-none"
         }`}
       >
         {msg.isImage ? (

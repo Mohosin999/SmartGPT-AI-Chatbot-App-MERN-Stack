@@ -30,15 +30,6 @@ import Loader from "../Loader";
  * @param {function} onSelectChat - Function called with chat ID when selected
  * @param {function} setChatToDelete - Setter to mark a chat for deletion
  * @param {function} onConfirmDelete - Function called to confirm chat deletion
- *
- * Example Usage:
- * <ChatItem
- *   chat={chat}
- *   isSelected={currentChat?.id === chat.id}
- *   onSelectChat={handleSelectChat}
- *   setChatToDelete={setChatToDelete}
- *   onConfirmDelete={handleConfirmDelete}
- * />
  */
 const ChatItem = ({
   chat,
@@ -53,7 +44,7 @@ const ChatItem = ({
   return (
     <li
       className={`flex items-center justify-between p-2 rounded-lg cursor-pointer transition select-none active:scale-105 ${
-        isSelected ? "bg-sky-800" : "hover:bg-gray-700"
+        isSelected ? "bg-[#303841]" : "hover:bg-[#303841]"
       }`}
     >
       {/* Loading Indicator while deleting a chat */}
@@ -77,7 +68,7 @@ const ChatItem = ({
               setChatToDelete(chat);
               setAlertOpen(true);
             }}
-            className="p-1 rounded-full hover:bg-sky-500 active:scale-105 transition cursor-pointer"
+            className="p-1 rounded-full hover:bg-gray-600 active:scale-105 transition cursor-pointer"
           >
             <BsThreeDots />
           </span>
@@ -88,7 +79,7 @@ const ChatItem = ({
             <AlertDialogTitle className="text-base font-medium">
               Delete Chat
             </AlertDialogTitle>
-            <AlertDialogDescription className="text-sm mt-1">
+            <AlertDialogDescription className="text-sm lg:text-base text-gray-700 mt-1">
               Are you sure you want to delete this chat? This action cannot be
               undone.
             </AlertDialogDescription>

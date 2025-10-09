@@ -17,18 +17,7 @@ import { FaCircleArrowRight } from "react-icons/fa6";
  * 3. Send message via Enter key or send button click.
  * 4. Disabled input and tooltip when the user is not logged in.
  * 5. Exposes a focus() method to the parent using `useImperativeHandle`.
- *
- * Props:
- * @param {function} onSend - Callback invoked when a message is sent.
- *        Receives two arguments: text (string), isImage (boolean)
- *
- * Exposed Ref Methods:
- * - focus(): Focuses the textarea from the parent component.
- *
- * Example Usage:
- * const chatRef = useRef();
- * <ChatInput ref={chatRef} onSend={(text, isImage) => console.log(text, isImage)} />
- * chatRef.current.focus(); // Focuses the input programmatically
+
  */
 const ChatInput = forwardRef(({ onSend }, ref) => {
   const [value, setValue] = useState(""); // Current input value
@@ -88,26 +77,30 @@ const ChatInput = forwardRef(({ onSend }, ref) => {
 
   return (
     <div className="w-full px-4 md:px-0 flex flex-col items-center">
-      {/* Checkbox to toggle "Generate as Image" mode */}
-      {value.trim().length > 0 && token && (
-        <div className="mb-2 flex items-center space-x-2 text-sm">
-          <input
-            type="checkbox"
-            id="generateImage"
-            checked={isImage}
-            onChange={(e) => setIsImage(e.target.checked)}
-            className="cursor-pointer"
-          />
-          <label
-            htmlFor="generateImage"
-            className="cursor-pointer text-gray-600"
-          >
-            Generate as Image
-          </label>
-        </div>
-      )}
+      {/* Checkbox area (fade in/out instead of shifting layout) */}
+      <div
+        className={`h-6 flex items-center justify-center space-x-2 text-sm transition-all duration-300 ${
+          value.trim().length > 0 && token
+            ? "opacity-100 translate-y-0"
+            : "opacity-0 -translate-y-2 pointer-events-none"
+        }`}
+      >
+        <input
+          type="checkbox"
+          id="generateImage"
+          checked={isImage}
+          onChange={(e) => setIsImage(e.target.checked)}
+          className="cursor-pointer"
+        />
+        <label
+          htmlFor="generateImage"
+          className="cursor-pointer text-gray-600 dark:text-gray-400"
+        >
+          Generate as Image
+        </label>
+      </div>
 
-      <div className="relative w-full rounded-xl border border-gray-300 bg-white shadow-sm group">
+      <div className="relative w-full rounded-xl border border-gray-300 bg-white dark:bg-[#303030] dark:border-[#303030] shadow-md group">
         {/* Textarea for user input */}
         <textarea
           ref={textareaRef}
@@ -118,7 +111,7 @@ const ChatInput = forwardRef(({ onSend }, ref) => {
           placeholder="Ask without limits..."
           rows={1}
           disabled={!token}
-          className={`w-full resize-none overflow-hidden rounded-xl bg-transparent px-4 py-3 pr-14 text-gray-800 focus:outline-none focus:ring-0 transition-all duration-150 max-h-60 ${
+          className={`w-full resize-none overflow-hidden rounded-xl bg-transparent px-4 py-3 pr-14 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-0 transition-all duration-150 max-h-60 ${
             !token ? "cursor-not-allowed opacity-50 select-none" : ""
           }`}
         />
@@ -137,7 +130,7 @@ const ChatInput = forwardRef(({ onSend }, ref) => {
           {value.trim().length > 0 && token ? (
             <FaCircleArrowRight
               onClick={sendMessage}
-              className="h-8 w-8 cursor-pointer active:scale-105 transition-transform duration-150 text-gray-700 hover:text-black"
+              className="h-7 w-7 cursor-pointer active:scale-105 transition-transform duration-150 text-gray-900 dark:text-gray-100 hover:text-gray-800 hover:dark:text-gray-300"
             />
           ) : (
             <div className="h-10 w-10" />

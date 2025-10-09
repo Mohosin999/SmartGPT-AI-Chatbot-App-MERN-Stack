@@ -110,7 +110,7 @@ const Login = () => {
   }, [navigate]);
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-cyan-950">
+    <div className="flex items-center justify-center min-h-screen bg-[#181818]">
       <Card className="w-full max-w-sm shadow-lg">
         <CardHeader>
           <CardTitle>Login to your account</CardTitle>
