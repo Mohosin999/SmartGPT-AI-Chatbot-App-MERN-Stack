@@ -79,7 +79,7 @@ const ChatItem = ({
             <AlertDialogTitle className="text-base font-medium">
               Delete Chat
             </AlertDialogTitle>
-            <AlertDialogDescription className="text-sm lg:text-base text-gray-700 mt-1">
+            <AlertDialogDescription className="text-sm lg:text-base text-gray-700 dark:text-gray-400 mt-1">
               Are you sure you want to delete this chat? This action cannot be
               undone.
             </AlertDialogDescription>

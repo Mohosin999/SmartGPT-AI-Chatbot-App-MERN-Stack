@@ -178,7 +178,7 @@ const ContentArea = () => {
         <div className="px-4 xl:pr-1 relative flex-1">
           {!accessToken ? (
             <div className="absolute inset-0 flex flex-col items-center justify-center">
-              <img src="./vite.svg" alt="Logo" className="w-30 h-30 mb-4" />
+              <img src="./vite.png" alt="Logo" className="w-30 h-30 mb-4" />
               <h2 className="text-3xl md:text-5xl px-4 md:px-0 font-semibold text-gray-800 dark:text-gray-100 mb-10">
                 What’s on your <span className="text-[#48A4FF]">mind?</span>
               </h2>
@@ -192,7 +192,7 @@ const ContentArea = () => {
             </div>
           ) : (
             <div className="absolute inset-0 flex flex-col items-center justify-center">
-              <img src="./vite.svg" alt="Logo" className="w-30 h-30 mb-4" />
+              <img src="./vite.png" alt="Logo" className="w-30 h-30 mb-4" />
               <h2 className="text-3xl md:text-5xl px-4 md:px-0 font-semibold text-gray-800 dark:text-gray-100 mb-10">
                 What’s on your <span className="text-[#48A4FF]">mind?</span>
               </h2>

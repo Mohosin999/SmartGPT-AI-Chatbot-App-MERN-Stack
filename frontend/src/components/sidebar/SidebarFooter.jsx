@@ -92,7 +92,7 @@ const SidebarFooter = ({ token, onLogout, onLogin }) => {
                     <AlertDialogTitle className="text-base font-medium">
                       Log Out
                     </AlertDialogTitle>
-                    <AlertDialogDescription className="text-sm lg:text-base text-gray-700 mt-1">
+                    <AlertDialogDescription className="text-sm lg:text-base text-gray-700 dark:text-gray-400 mt-1">
                       Are you sure you want to log out? You’ll need to log in
                       again to access your account.
                     </AlertDialogDescription>

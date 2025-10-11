@@ -57,6 +57,10 @@ Explore the full API documentation here: https://smartgpt-server.onrender.com/do
 - Fully documented with Swagger UI.
 - Organized structure for scalability and easy integration.
 
+#### `Dark / Light Mode`
+
+- Switch seamlessly between dark and light themes.
+
 ## 🛠️ Tech Stack
 
 - **`Frontend:`**
