@@ -71,7 +71,7 @@ const SidebarFooter = ({ token, onLogout, onLogin }) => {
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
             <div className="flex flex-col">
-              <h2>Mohosin Hasan Akash</h2>
+              <h2>Demo User</h2>
 
               {/* Logout Confirmation Dialog */}
               <AlertDialog open={alertOpen} onOpenChange={setAlertOpen}>
