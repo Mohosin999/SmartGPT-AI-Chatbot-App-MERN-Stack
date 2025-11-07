@@ -7,7 +7,7 @@ const generateAccessToken = ({
   payload,
   algorithm = "HS256",
   secret = process.env.ACCESS_TOKEN_SECRET,
-  expiresIn = "15m",
+  expiresIn = "2m",
 }) => {
   try {
     return jwt.sign(payload, secret, { expiresIn, algorithm });
@@ -19,7 +19,7 @@ const generateAccessToken = ({
 
 const generateRefreshToken = () => {
   const refreshToken = uuidv4();
-  const expiresAt = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000); // 7 days
+  const expiresAt = new Date(Date.now() + 3 * 60 * 1000); // 3 minutes
   return { refreshToken, expiresAt };
 };
 
