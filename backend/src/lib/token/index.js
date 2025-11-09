@@ -20,7 +20,7 @@ const generateAccessToken = ({
 const generateRefreshToken = () => {
   const refreshToken = uuidv4();
   // const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 days
-  const expiresAt = new Date(Date.now() + 5 * 60 * 1000); // 7 days
+  const expiresAt = new Date(Date.now() + 4 * 60 * 60 * 1000); // 2 hrs
   return { refreshToken, expiresAt };
 };
 
